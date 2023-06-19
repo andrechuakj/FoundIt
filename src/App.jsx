@@ -1,38 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useContext } from 'react';
+import './App.css';
+import LogIn from './pages/LogIn';
+import SignUp from './pages/SignUp';
+import MainPage from './pages/MainPage'
+import ForgotPassword from './pages/ForgotPassword';
+import UserProvider from './contexts/UserProvider'
+import UserContext from './contexts/UserContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const user = useContext(UserContext)
+  const [currForm, setCurrForm] = useState('login')
 
+  function toggleForm(nextForm) {
+    setCurrForm(nextForm)
+  }
+
+  let currPage;
+  if (currForm === 'login') {
+    currPage = <LogIn onFormSwitch={toggleForm} />;
+  } else if (currForm === 'signup') {
+    currPage = <SignUp onFormSwitch={toggleForm} />;
+  } else if (currForm === 'main-page') {
+    currPage = <MainPage onFormSwitch={toggleForm} />
+  } else if (currForm === 'forgot-password') {
+    currPage = <ForgotPassword onFormSwitch={toggleForm} />
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more 
-      </p>
-      <p>
-      hi zac was here at 12th June 1.28pm
-      </p>
-    </>
+    <UserProvider>
+      {currPage}
+    </UserProvider>
   )
+
+
+
 }
 
 export default App
