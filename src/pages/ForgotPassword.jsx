@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { auth } from '../firebase'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { Alert } from "react-bootstrap"
 
-export default function ForgotPassword(props) {
+export default function ForgotPassword() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
@@ -43,8 +44,8 @@ export default function ForgotPassword(props) {
           Reset password
         </button>
   
-        <button onClick={() => props.onFormSwitch('login')} className="no-account-button">
-          Back
+        <button className="no-account-button">
+          <Link to="/login">Back</Link>
         </button>
   
       </form>
