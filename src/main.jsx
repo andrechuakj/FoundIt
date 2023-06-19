@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import Context from './UserContext.jsx'
 
 import {
   createBrowserRouter,
@@ -9,14 +10,22 @@ import {
 } from "react-router-dom"
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-]);
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <App />,
+//   },
+// ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(
+//   <RouterProvider router={router} />
+// );
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <RouterProvider router={router} />
-);
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
+
