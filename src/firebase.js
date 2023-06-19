@@ -6,7 +6,6 @@ import { initializeFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBpNoyMXiyJEOJikQwOQ35_GU7E-fVA_NA",
@@ -14,7 +13,7 @@ const firebaseConfig = {
   projectId: "orbital-milestone-2-cfb15",
   storageBucket: "orbital-milestone-2-cfb15.appspot.com",
   messagingSenderId: "545161554419",
-  appId: "1:545161554419:web:ed415499543bd854ac4a86"
+  appId: "1:545161554419:web:ed415499543bd854ac4a86",
 };
 
 // Initialize Firebase
@@ -27,5 +26,4 @@ export const auth = getAuth(app);
 
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
-})
-
+});
