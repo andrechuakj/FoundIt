@@ -1,28 +1,34 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { auth, db } from '../firebase'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import UserContext from '../contexts/UserContext';
+import UserContext from '../contexts/UserContext'
 import { Alert } from "react-bootstrap"
 
-export default function LogIn(props) {
+export default function LogIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const { login } = useContext(UserContext)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      await signInWithEmailAndPassword(auth, email, password)
-      props.onFormSwitch('main-page')
-      // if there is successful log in, then go to main page
+      setError('')
+      setLoading(true)
 
+      await signInWithEmailAndPassword(auth, email, password)
       const userData = await fetchUserData(email)
-      console.log(userData)
       login(userData)
 
+      navigate("/main-page")
+      // leads user to the main-page
+
     } catch (error) {
+      console.log(error.code)
       switch (error.code) {
         case "auth/user-not-found":
           setError("Account with that email does not exist")
@@ -37,11 +43,13 @@ export default function LogIn(props) {
           setError("Invalid email")
           break
         default:
-          setError("Failed to create an account")
+          setError("Failed to log in")
       }
-      console.log(error.code)
+      setLoading(false)
     }
+    
   }
+
 
   const fetchUserData = async (email) => {
     try {
@@ -50,10 +58,9 @@ export default function LogIn(props) {
       const querySnapshot = await getDocs(queryByEmail);
 
       if (!querySnapshot.empty) {
-        console.log(querySnapshot)
-        const userData = querySnapshot.docs[0].data();
+        const userData = querySnapshot.docs[0].data()
         console.log(userData)
-        return userData;
+        return userData
       }
 
       return null; // Return null if user data is not found
@@ -76,16 +83,16 @@ export default function LogIn(props) {
         <label htmlFor="password">Password</label>
         <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="Password" />
 
-        <button className="log-in-sign-up-button">
+        <button disabled={loading} className="log-in-sign-up-button">
           Log In
         </button>
 
-        <button onClick={() => props.onFormSwitch('forgot-password')} className="no-account-button">
-          Forgot password?
+        <button className="no-account-button">
+          <Link to="/signup">Don't have an account? Sign up here</Link>
         </button>
 
-        <button onClick={() => props.onFormSwitch('signup')} className="no-account-button">
-          Don't have an account? Sign up here
+        <button className="forgot-password">
+          <Link to="/forgot-password">Forgot password?</Link>
         </button>
       </form>
     </div>

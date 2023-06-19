@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { auth, db } from '../firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { collection, doc, setDoc } from 'firebase/firestore'
 import { Alert } from "react-bootstrap"
 
-export default function SignUp(props) {
+export default function SignUp() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [contact, setContact] = useState('')
@@ -31,7 +32,6 @@ export default function SignUp(props) {
       setLoading(true)
 
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
-
       // Save user data to Cloud Firestore
       const userDocRef = doc(collection(db, 'users'), user.uid);
       await setDoc(userDocRef, {
@@ -52,8 +52,11 @@ export default function SignUp(props) {
           setError("Please fill in your email")
           break
         case "auth/missing-password":
-        setError("Please fill in your password")
-        break
+          setError("Please fill in your password")
+          break
+        case "auth/weak-password":
+          setError("Password must be at least 6 characters long")
+          break
         default:
           setError("Failed to create an account")
           console.log(error.code)
@@ -105,8 +108,8 @@ export default function SignUp(props) {
           Sign up
         </button>
 
-        <button onClick={() => props.onFormSwitch('login')} className="no-account-button">
-          Already have an account? Log in here
+        <button className="no-account-button">
+          <Link to="/login">Already have an account? Log in here</Link>
         </button>
       </form>
     </div>

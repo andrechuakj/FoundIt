@@ -1,12 +1,11 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 
-export default function MainPage({ onFormSwitch }) {
+export default function MainPage() {
   const { user, logout } = useContext(UserContext)
 
   const handleLogout = () => {
     logout()
-    onFormSwitch('login')
   }
 
   return (
@@ -16,7 +15,7 @@ export default function MainPage({ onFormSwitch }) {
       <button onClick={handleLogout}>
         Log out
       </button>
-      <button onClick={() => onFormSwitch('login')}>
+      <button>
         go back
       </button>
     </div>
