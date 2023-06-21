@@ -1,7 +1,7 @@
 import "./App.css";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
-import MainPage from "./pages/MainPage";
+import HomePage from "./pages/HomePage";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProvider from "./contexts/UserProvider";
 import PrivateRoute from "./PrivateRoute";
@@ -17,7 +17,7 @@ function App() {
             path="/main-page"
             element={
               <PrivateRoute>
-                <MainPage />
+                <HomePage />
               </PrivateRoute>
             }
           />
