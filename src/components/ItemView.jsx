@@ -58,6 +58,7 @@ const ItemView = ({ data, searchKey }) => {
         {data
           .filter((item) => !item.returned)
           .filter(filterBySearch)
+          .sort((x, y) => y.dateReported - x.dateReported)
           .map((item) => (
             <Col key={item.id}>
               <Card
