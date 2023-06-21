@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import UserContext from './UserContext'
 
 /*
@@ -8,13 +9,29 @@ import UserContext from './UserContext'
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      console.log(storedUser)
+    }
+    console.log('2')
+  }, []);
+
 
   const login = (userData) => {
     setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
+    console.log('3')
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('user');
+    navigate('/')
+    alert('you have successfully logged out')
   };
 
   return (

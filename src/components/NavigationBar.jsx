@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { Link } from "react-router-dom";
 import Stack from "react-bootstrap/Stack";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -13,7 +14,7 @@ const NavigationBar = () => {
     <>
       <Navbar className="bg-body-tertiary">
         <Container fluid>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/home-page">
             <img
               alt=""
               src={logoOnly}
@@ -40,17 +41,19 @@ const NavigationBar = () => {
                 <NavDropdown.Item href="#action/3.1">
                   View listings
                 </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
+                <NavDropdown.Item href="/home-page/edit-profile">
                   Edit profile
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
+                <NavDropdown.Item href="/home-page/logout">
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
-          <Button variant="outline-danger">Upload</Button>
+          <Button variant="outline-danger">
+            <Link to="/home-page/LostFoundItemForm" className="uploadButton">Upload</Link>
+          </Button>
         </Container>
       </Navbar>
     </>

@@ -85,3 +85,8 @@ input {
   margin-top: 0.5rem;
   padding: 0;
 }
+
+.uploadButton {
+  color: rgb(220, 53, 69);
+  text-decoration: none;
+}

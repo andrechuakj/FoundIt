@@ -1,16 +1,26 @@
 import React from "react";
-import Nav from "react-bootstrap/Nav";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import ItemView from "./ItemView";
+import FoundData from "../MockFoundData";
+import LostData from "../MockLostData";
 
-const FilterBar = () => {
+const FilterBar = ({ searchKey }) => {
   return (
-    <Nav justify variant="tabs" defaultActiveKey="/home">
-      <Nav.Item>
-        <Nav.Link href="/home">I lost my item</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link eventKey="link-1">I found an item</Nav.Link>
-      </Nav.Item>
-    </Nav>
+    <Tabs
+      defaultActiveKey="lost"
+      id="justify-tab-example"
+      className="mb-3"
+      justify
+      style={{ fontSize: "16px", fontWeight: "bold" }}
+    >
+      <Tab eventKey="lost" title="I lost something">
+        <ItemView data={FoundData} searchKey={searchKey} />
+      </Tab>
+      <Tab eventKey="found" title="I found something">
+        <ItemView data={LostData} searchKey={searchKey} />
+      </Tab>
+    </Tabs>
   );
 };
 

@@ -2,28 +2,40 @@ import "./App.css";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import MainPage from "./pages/MainPage";
+import HomePage from "./pages/HomePage"
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProvider from "./contexts/UserProvider";
 import PrivateRoute from "./PrivateRoute";
+import Logout from "./components/NavBarComponents/Logout"
+import EditProfile from "./components/NavBarComponents/EditProfile"
+import LostFoundItemForm from "./pages/LostFoundItemForm"
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+/*
+  By right, all the pages that are not login/signup should be PrivateRoute,
+  if not users can go to eg. /home/logout from the login page by simply
+  typing it in the search bar, but lets settle that another day
+*/
 function App() {
   return (
     <Router>
       <UserProvider>
         <Routes>
           <Route
-            path="/main-page"
+            path="/home-page"
             element={
               <PrivateRoute>
-                <MainPage />
+                <HomePage />
               </PrivateRoute>
             }
           />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<LogIn />} />
+          <Route path="/" element={<LogIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/home-page/logout" element={<Logout />} />
+          <Route path="/home-page/edit-profile" element={<EditProfile />} />
+          <Route path="/home-page/LostFoundItemForm" element={<LostFoundItemForm />} />
         </Routes>
       </UserProvider>
     </Router>

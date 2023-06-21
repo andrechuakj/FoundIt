@@ -11,6 +11,7 @@ export default function SignUp() {
   const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,6 +43,8 @@ export default function SignUp() {
         email,
         contact,
         password,
+        lostItems: [], 
+        foundItems: [],
       });
       resetInputFields();
       setSuccessMessage("Sign up successful!");
@@ -148,7 +151,7 @@ export default function SignUp() {
         </button>
 
         <button className="no-account-button">
-          <Link to="/login">Already have an account? Log in here</Link>
+          <Link to="/">Already have an account? Log in here</Link>
         </button>
       </form>
     </div>

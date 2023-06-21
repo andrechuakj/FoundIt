@@ -24,8 +24,8 @@ export default function LogIn() {
       const userData = await fetchUserData(email);
       login(userData);
 
-      navigate("/main-page");
-      // leads user to the main-page
+      navigate("/home-page");
+      // leads user to the home-page
     } catch (error) {
       console.log(error.code);
       switch (error.code) {
