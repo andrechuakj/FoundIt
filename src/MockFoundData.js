@@ -1,18 +1,19 @@
-import bottle from "./assets/bottle.jpg";
-import airpods from "./assets/airpods.jpg";
-import card from "./assets/card.jpg";
-import dino from "./assets/dino.jpg";
-import purpleBottle from "./assets/lost bottle.jpg";
-import cap from "./assets/lost cap.jpg";
-import laptop from "./assets/lost laptop.jpg";
-import charger from "./assets/lost macbook charger.jpg";
-import rightAirpod from "./assets/lost right airpod.jpg";
-import specs from "./assets/lost spec.jpg";
+import bottle from "./assets/foundItems/bottle.jpg";
+import airpods from "./assets/foundItems/airpods.jpg";
+import card from "./assets/foundItems/card.jpg";
+import dino from "./assets/foundItems/dino.jpg";
+import purpleBottle from "./assets/foundItems/lost bottle.jpg";
+import cap from "./assets/foundItems/lost cap.jpg";
+import laptop from "./assets/foundItems/lost laptop.jpg";
+import charger from "./assets/foundItems/lost macbook charger.jpg";
+import rightAirpod from "./assets/foundItems/lost right airpod.jpg";
+import specs from "./assets/foundItems/lost spec.jpg";
 
 const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Alice",
+    owner: null,
     returned: false,
     dateReported: new Date("2015-03-25"),
     itemName: "Nalgene bottle",
@@ -23,6 +24,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Bob",
+    owner: null,
     returned: false,
     dateReported: new Date("2023-01-26"),
     itemName: "Airpods Pro with white case and black chain",
@@ -33,6 +35,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Christ",
+    owner: null,
     returned: true,
     dateReported: new Date("2021-12-13"),
     itemName: "Dinosaur keychain",
@@ -43,6 +46,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Deen",
+    owner: null,
     returned: false,
     dateReported: new Date("2010-12-13"),
     itemName: "Student Card",
@@ -53,6 +57,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Elise",
+    owner: null,
     returned: false,
     dateReported: new Date("2013-11-11"),
     itemName: "Nalgene bottle",
@@ -63,6 +68,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Farhan",
+    owner: null,
     returned: false,
     dateReported: new Date("2016-1-19"),
     itemName: "Cap",
@@ -73,6 +79,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Gia",
+    owner: null,
     returned: false,
     dateReported: new Date("2019-9-13"),
     itemName: "Laptop",
@@ -83,6 +90,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Hansel",
+    owner: null,
     returned: false,
     dateReported: new Date("2023-12-13"),
     itemName: "Macbook charger",
@@ -93,6 +101,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Issac",
+    owner: null,
     returned: false,
     dateReported: new Date("2021-04-01"),
     itemName: "Right airpod",
@@ -103,6 +112,7 @@ const FoundData = [
   {
     id: crypto.randomUUID(),
     founder: "Julia",
+    owner: null,
     returned: false,
     dateReported: new Date("2042-12-15"),
     itemName: "Spectacles",
