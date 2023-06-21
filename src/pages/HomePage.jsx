@@ -2,7 +2,7 @@ import React from "react";
 import NavigationBar from "../components/NavigationBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import FilterBar from "../components/FilterBar";
+import ItemTabs from "../components/ItemTabs";
 
 const HomePage = () => {
   const [searchKey, setSearchKey] = React.useState("");
@@ -15,7 +15,7 @@ const HomePage = () => {
             <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
           </div>
           <hr />
-          <FilterBar searchKey={searchKey} />
+          <ItemTabs searchKey={searchKey} />
           <br />
         </Col>
       </Row>
