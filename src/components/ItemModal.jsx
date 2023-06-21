@@ -5,6 +5,11 @@ import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
 const ItemModal = ({ show, onHide, data }) => {
+  const handleClaim = () => {
+    console.log(data.founder == "" ? data.loster : data.owner);
+    onHide();
+  };
+
   return (
     <Modal
       show={show}
@@ -43,7 +48,7 @@ const ItemModal = ({ show, onHide, data }) => {
         <p>{"Date Reported: " + new Date(data.dateReported).toDateString()}</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={onHide}>Claim</Button>
+        <Button onClick={handleClaim}>Claim</Button>
       </Modal.Footer>
     </Modal>
   );
