@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -6,20 +6,82 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import { Container, FormLabel } from "react-bootstrap";
 
+import { collection, updateDoc, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase";
+import { UserContext } from "../contexts/UserContext";
+
 const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const [lostOrFound, setLostOrFound] = React.useState(null);
   const [date, setDate] = React.useState(
     new Date().toISOString().substr(0, 10)
   );
   const [validated, setValidated] = React.useState(false);
+  const { user } = useContext(UserContext);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
+    console.log(reportForm.itemName)
+    try {
+      // Retrieve the user's document from Firestore
+      const usersCollectionRef = collection(db, "users");
+      const queryByEmail = query(usersCollectionRef, where("email", "==", `${user.email}`));
+      const querySnapshot = await getDocs(queryByEmail);
 
+      if (!querySnapshot.empty) {
+        if (lostOrFound === "lost") {
+          // Retrieve the current "lostItems" array from the user's document
+          const currentLostItems = querySnapshot.docs[0].data().lostItems;
+          console.log(currentLostItems)
+
+          // Create a new object with the item data
+          const newLostItem = {
+            itemName: reportForm.itemName,
+            location,
+            dateAndTime,
+            itemDescription,
+            picture,
+          }
+
+          // Update the "lostItems" array by pushing the new lost item
+          const updatedLostItems = [...currentLostItems, newLostItem];
+          console.log(updatedLostItems)
+
+          // Update the user's document with the updated "lostItems" array
+          const userDocRef = querySnapshot.docs[0].ref;
+          await updateDoc(userDocRef, { lostItems: updatedLostItems });
+          
+        } else if (lostOrFound === "found") {
+          // Retrieve the current "foundItems" array from the user's document
+          const currentFoundItems = querySnapshot.docs[0].data().foundItems;
+          console.log(currentFoundItems)
+
+          // Create a new object with the item data
+          const newFoundItem = {
+            itemName: reportForm.itemName,
+            location,
+            dateAndTime,
+            itemDescription,
+            picture,
+          }
+
+          // Update the "foundItems" array by pushing the new lost item
+          const updatedFoundItems = [...currentFoundItems, newFoundItem];
+          console.log(updatedFoundItems)
+
+          // Update the user's document with the updated "lostItems" array
+          const userDocRef = querySnapshot.docs[0].ref;
+          await updateDoc(userDocRef, { foundItems: updatedFoundItems });
+        }
+      } else {
+        console.log("User document does not exist")
+      }
+    } catch (error) {
+      console.log(error)
+    }
     setValidated(true);
   };
 

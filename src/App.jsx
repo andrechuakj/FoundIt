@@ -1,7 +1,6 @@
 import "./App.css";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
-import MainPage from "./pages/MainPage";
 import HomePage from "./pages/HomePage"
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProvider from "./contexts/UserProvider";

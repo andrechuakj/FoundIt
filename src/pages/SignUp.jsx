@@ -43,8 +43,6 @@ export default function SignUp() {
         email,
         contact,
         password,
-        lostItems: [], 
-        foundItems: [],
       });
       resetInputFields();
       setSuccessMessage("Sign up successful!");
