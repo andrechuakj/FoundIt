@@ -5,7 +5,7 @@ import ItemView from "./ItemView";
 import FoundData from "../MockFoundData";
 import LostData from "../MockLostData";
 
-const FilterBar = ({ searchKey }) => {
+const ItemTabs = ({ searchKey }) => {
   return (
     <Tabs
       defaultActiveKey="lost"
@@ -24,4 +24,4 @@ const FilterBar = ({ searchKey }) => {
   );
 };
 
-export default FilterBar;
+export default ItemTabs;
