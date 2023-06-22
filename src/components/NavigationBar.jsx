@@ -15,6 +15,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
   const [messageHovered, setMessageHovered] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   const dropdownStyle = {
     display: "inline-block",
@@ -48,10 +49,21 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const handleLeaveMessage = () => {
     setMessageHovered(false);
   };
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setSearchKey(value);
+    setShowDeleteButton(value.length > 0);
+  };
+
+  const handleDeleteClick = () => {
+    setSearchKey("");
+    setShowDeleteButton(false);
+  };
   return (
     <>
       <Navbar className="bg-body-tertiary">
-        <Container fluid>
+        <Container fluid style={{ position: "relative" }}>
           <Navbar.Brand href="/home-page">
             <img
               alt=""
@@ -61,18 +73,34 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
               className="d-inline-block align-top"
             />
           </Navbar.Brand>
-          <Navbar.Brand href="/main-page">
+          <Navbar.Brand href="/home-page">
             <Navbar.Text style={{ fontSize: 33, fontWeight: "bold" }}>
               FoundIt
             </Navbar.Text>
           </Navbar.Brand>
+
           <Form.Control
-            className="ms-3 me-3"
+            className="mx-auto"
             placeholder="Search for item or location..."
             value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
+            onChange={handleInputChange}
           />
-          <div className="vr" />
+          {showDeleteButton && (
+            <Button
+              className="delete-button"
+              onClick={handleDeleteClick}
+              style={{
+                position: "absolute",
+                right: "330px",
+                top: "50%",
+                transform: "translateY(-50%)",
+              }}
+            >
+              &#x2716;
+            </Button>
+          )}
+
+          <div className="vr ms-3" />
           <Navbar.Collapse>
             <Nav style={{ padding: "4px" }}>
               <div
@@ -81,14 +109,16 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseLeave={handleLeaveDropdown}
               >
                 <NavDropdown title="Welcome, user">
-                  <NavDropdown.Item href="#action/3.1">
+                  <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
                   <NavDropdown.Item href="/home-page/edit-profile">
                     Edit profile
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/home-page/logout">Logout</NavDropdown.Item>
+                  <NavDropdown.Item href="/home-page/logout">
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
               </div>
             </Nav>

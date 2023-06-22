@@ -5,9 +5,10 @@ import HomePage from "./pages/HomePage";
 import ForgotPassword from "./pages/ForgotPassword";
 import UserProvider from "./contexts/UserProvider";
 import PrivateRoute from "./PrivateRoute";
-import Logout from "./components/NavBarComponents/Logout";
-import EditProfile from "./components/NavBarComponents/EditProfile";
+import Logout from "./pages/Logout";
+import EditProfile from "./pages/EditProfile";
 import LostFoundItemForm from "./pages/LostFoundItemForm";
+import ViewPersonalListings from "./pages/ViewPersonalListings";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -34,6 +35,10 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/home-page/logout" element={<Logout />} />
           <Route path="/home-page/edit-profile" element={<EditProfile />} />
+          <Route
+            path="/home-page/view-personal-listings"
+            element={<ViewPersonalListings />}
+          />
           <Route
             path="/home-page/LostFoundItemForm"
             element={<LostFoundItemForm />}

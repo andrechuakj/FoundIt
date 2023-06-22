@@ -5,7 +5,7 @@ import ItemView from "./ItemView";
 import { db } from '../firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 
-const FilterBar = ({ searchKey }) => {
+const ItemTabs = ({ searchKey }) => {
   const [lostItems, setLostItems] = useState([])
   const [foundItems, setFoundItems] = useState([])
 
@@ -46,4 +46,4 @@ const FilterBar = ({ searchKey }) => {
   );
 };
 
-export default FilterBar;
+export default ItemTabs;
