@@ -5,7 +5,7 @@ import ItemView from "./ItemView";
 import FoundData from "../MockFoundData";
 import LostData from "../MockLostData";
 
-const ItemTabs = ({ searchKey }) => {
+const PersonalItemTabs = ({ searchPersonalKey }) => {
   return (
     <Tabs
       defaultActiveKey="lost"
@@ -14,14 +14,14 @@ const ItemTabs = ({ searchKey }) => {
       justify
       style={{ fontSize: "16px", fontWeight: "bold" }}
     >
-      <Tab eventKey="lost" title="I lost something">
-        <ItemView data={FoundData} searchKey={searchKey} />
+      <Tab eventKey="lost" title="Things I lost">
+        <ItemView data={FoundData} searchKey={searchPersonalKey} />
       </Tab>
-      <Tab eventKey="found" title="I found something">
-        <ItemView data={LostData} searchKey={searchKey} />
+      <Tab eventKey="found" title="Things I found">
+        <ItemView data={LostData} searchKey={searchPersonalKey} />
       </Tab>
     </Tabs>
   );
 };
 
-export default ItemTabs;
+export default PersonalItemTabs;
