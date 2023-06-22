@@ -81,14 +81,16 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseLeave={handleLeaveDropdown}
               >
                 <NavDropdown title="Welcome, user">
-                  <NavDropdown.Item href="#action/3.1">
+                  <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
                   <NavDropdown.Item href="/home-page/edit-profile">
                     Edit profile
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/home-page/logout">Logout</NavDropdown.Item>
+                  <NavDropdown.Item href="/home-page/logout">
+                    Logout
+                  </NavDropdown.Item>
                 </NavDropdown>
               </div>
             </Nav>
