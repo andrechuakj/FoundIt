@@ -213,7 +213,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
             <Container>
               <Form.Group className="mb-3" controlId="reportForm.itemName">
                 <Form.Label>Item name</Form.Label>
-                <Form.Control type="text" required ref={itemNameRef} />
+                <Form.Control type="text" required ref={itemNameRef} autoFocus/>
                 <Form.Control.Feedback type="invalid" htmlFor="reportForm.itemName">
                   Please provide an item name.
                 </Form.Control.Feedback>
