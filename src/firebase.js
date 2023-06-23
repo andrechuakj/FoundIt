@@ -3,6 +3,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { initializeFirestore } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,8 +24,10 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
 
-//export const db = getFirestore(app)
-
 export const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
 });
+
+export const storage = getStorage(app)
+// export const storageRef = ref(storage)
+
