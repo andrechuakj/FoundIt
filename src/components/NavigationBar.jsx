@@ -10,6 +10,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
 import { Link } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext";
+
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
@@ -17,7 +19,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [openReportModal, setOpenReportModal] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const { user } = useContext(UserContext);
-  //const userName = `Welcome, ${user.name}`;
+  const userName = `Welcome, ${user.name}`
 
   const dropdownStyle = {
     display: "inline-block",
@@ -116,7 +118,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseEnter={handleHoverDropdown}
                 onMouseLeave={handleLeaveDropdown}
               >
-                <NavDropdown title={"TODO"}>
+                <NavDropdown title={userName}>
                   <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
@@ -163,9 +165,3 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
 };
 
 export default NavigationBar;
-
-/*
-  <Button variant="outline-danger">
-    <Link to="/home-page/LostFoundItemForm" className="uploadButton">Upload</Link>
-  </Button>
-*/
