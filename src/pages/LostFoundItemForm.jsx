@@ -7,14 +7,7 @@ import Col from "react-bootstrap/Col";
 import ItemTabs from "../components/ItemTabs";
 import { Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
-import {
-  collection,
-  doc,
-  updateDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, doc, updateDoc, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 export default function LostFoundItemForm() {
@@ -57,11 +50,11 @@ export default function LostFoundItemForm() {
       console.log("1");
 
       // Retrieve the user's document from Firestore
-      const email = `${user.email}`;
+      const email = `${user.email}`
       const usersCollectionRef = collection(db, "users");
       const queryByEmail = query(
         usersCollectionRef,
-        where("email", "==", email)
+        where("email", "==", useremail)
       );
       const querySnapshot = await getDocs(queryByEmail);
 

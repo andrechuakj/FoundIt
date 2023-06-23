@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
-import { Container, FormLabel } from "react-bootstrap";
+import { Container, FormLabel, Alert } from "react-bootstrap";
+import noImage from '../assets/noImage.jpg'
+
+import { collection, addDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { UserContext } from "../contexts/UserContext";
 
 const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
-  const [lostOrFound, setLostOrFound] = React.useState(null);
-  const [date, setDate] = React.useState(
+  const [lostOrFound, setLostOrFound] = useState('lost');
+  const [date, setDate] = useState(
     new Date().toISOString().substr(0, 10)
   );
-  const [validated, setValidated] = React.useState(false);
+  const [validated, setValidated] = useState(false);
+  const { user } = useContext(UserContext);
+  const generateUUID = () => crypto.randomUUID();
+  const [successMessage, setSuccessMessage] = useState('')
+  const [fileUrl, setFileUrl] = useState(null)
 
   const itemNameRef = React.useRef(null);
   const categoryRef = React.useRef(null);
@@ -19,9 +29,49 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const othersRef = React.useRef(null);
   const locationRef = React.useRef(null);
   const dateRef = React.useRef(null);
-  const pictureRef = React.useRef(null);
+  // const formRef = React.useRef(null);
+  // const defaultImageURL = `https://storage.googleapis.com/orbital-milestone-2-cfb15.appspot.com/noImage.jpg`;
 
-  const handleSubmit = (event) => {
+  // Handle file upload event
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const storageRef = ref(storage, file.name);
+
+      try {
+        // Upload file to Firebase Storage
+        await uploadBytes(storageRef, file);
+
+        // Get the download URL of the uploaded file
+        const downloadURL = await getDownloadURL(storageRef);
+        setFileUrl(downloadURL)
+
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
+    } 
+  };
+
+  const createLostItem = async (item) => {
+    try {
+      const docRef = await addDoc(collection(db, 'lostItems'), item);
+      console.log('Document written with ID:', docRef.id);
+    } catch (error) {
+      console.error('Error adding document:', error);
+    }
+  };
+
+  const createFoundItem = async (item) => {
+    try {
+      const docRef = await addDoc(collection(db, 'foundItems'), item);
+      console.log('Document written with ID:', docRef.id);
+    } catch (error) {
+      console.error('Error adding document:', error);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -29,7 +79,48 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       event.stopPropagation();
     }
 
+    try {
+      if (lostOrFound === 'lost') {
+        const lostItem = {
+          itemName: itemNameRef.current.value,
+          category: categoryRef.current.value,
+          colour: colourRef.current.value,
+          others: othersRef.current.value,
+          location: locationRef.current.value,
+          dateReported: dateRef.current.value,
+          itemPicture: fileUrl ? fileUrl : noImage,
+
+          id: generateUUID(),
+          founder: null,
+          owner: `${user.name}`,
+          returned: false,
+        }
+        createLostItem(lostItem)
+      } else if (lostOrFound === 'found') {
+        const foundItem = {
+          itemName: itemNameRef.current.value,
+          category: categoryRef.current.value,
+          colour: colourRef.current.value,
+          others: othersRef.current.value,
+          location: locationRef.current.value,
+          dateReported: dateRef.current.value,
+          itemPicture: fileUrl ? fileUrl : noImage,
+
+          id: generateUUID(),
+          founder: `${user.name}`,
+          owner: null,
+          returned: false,
+        }
+        createFoundItem(foundItem)
+      } else {
+        console.log("User document does not exist")
+      }
+    } catch (error) {
+      console.log(error)
+    }
     setValidated(true);
+    setSuccessMessage('Form Submitted!')
+    setFileUrl(null)
     console.log("Lost or Found value:", lostOrFound);
     console.log("ItemName Value:", itemNameRef.current.value);
     console.log("Category Value:", categoryRef.current.value);
@@ -37,8 +128,28 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     console.log("Other descriptions Value:", othersRef.current.value);
     console.log("Location Value:", locationRef.current.value);
     console.log("Date Value:", dateRef.current.value);
-    console.log("Picture Value:", pictureRef.current.value);
+    console.log("Picture Value:", fileUrl);
+    //resetInputFields()
   };
+
+  const resetInputFields = () => {
+    console.log(lostOrFound)
+    const lostOrFoundValue = lostOrFound
+    // so that 'lost' or 'found' is saved
+
+    if (formRef.current) {
+      formRef.current.reset();
+      setValidated(false)
+    }
+    console.log(lostOrFoundValue)
+    handleLostOrFound(lostOrFoundValue)
+    /*
+      yo I try to make this such that default is on 'lose your item'. but issue
+      now is whenever I am on 'found an item' and I press reset, the blue state
+      goes to 'lose your item' when it should remain at 'found an item' ???
+      idk why, cant seem to fix it
+    */
+  }
 
   const handleLostOrFound = (value) => {
     setLostOrFound(value);
@@ -46,12 +157,17 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
 
   const handleModalClose = () => {
     setOpenReportModal(false);
-    setLostOrFound(null);
+    setLostOrFound('lost');
+    setValidated(false)
+    setSuccessMessage('')
+    setFileUrl(null)
   };
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
   };
+
+  //help idk how center the successMessage without using rem :/
 
   return (
     <Modal show={openReportModal} onHide={handleModalClose}>
@@ -59,6 +175,10 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
         <Modal.Title>Report Item</Modal.Title>
       </Modal.Header>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        {successMessage && <Alert variant="success" className="mb-0 mt-4 d-flex justify-content-center"
+          style={{ width: "50%", marginLeft: "7.5rem" }}>
+          {successMessage}
+        </Alert>}
         <Modal.Body>
           <Form.Group className="mb-3">
             <FormLabel>Did you: </FormLabel>
@@ -94,7 +214,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
               <Form.Group className="mb-3" controlId="reportForm.itemName">
                 <Form.Label>Item name</Form.Label>
                 <Form.Control type="text" required ref={itemNameRef} autoFocus/>
-                <Form.Control.Feedback type="invalid">
+                <Form.Control.Feedback type="invalid" htmlFor="reportForm.itemName">
                   Please provide an item name.
                 </Form.Control.Feedback>
               </Form.Group>
@@ -144,15 +264,17 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
               </Form.Group>
               <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Picture of item</Form.Label>
-                <Form.Control type="file" accept="image/*" ref={pictureRef} />
+                <Form.Control type="file" accept="image/*" onChange={handleFileUpload} />
               </Form.Group>
             </Container>
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleModalClose}>
-            Close
-          </Button>
+          {lostOrFound && (
+            <Button variant="secondary" onClick={resetInputFields}>
+              Reset fields
+            </Button>
+          )}
           {lostOrFound && (
             <Button type="submit" variant="primary">
               Submit

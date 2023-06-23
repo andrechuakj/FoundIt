@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import ItemModal from "./ItemModal";
+
 
 const ItemView = ({ data, searchKey }) => {
   const [idHovered, setIdHovered] = React.useState(null);
@@ -109,7 +110,7 @@ const ItemView = ({ data, searchKey }) => {
                     {item.location}
                   </Card.Text>
                   <Card.Text style={{ overflow: "hidden" }}>
-                    {item.dateReported.toDateString()}
+                    {item.dateReported}
                   </Card.Text>
                 </Card.Body>
               </Card>
