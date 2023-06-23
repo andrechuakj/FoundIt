@@ -62,7 +62,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   };
   return (
     <>
-      <Navbar className="bg-body-tertiary">
+      <Navbar style={{ backgroundColor: "#57e2fa" }}>
         <Container fluid style={{ position: "relative" }}>
           <Navbar.Brand href="/home-page">
             <img
@@ -138,7 +138,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
             </Navbar.Brand>
           </Navbar.Collapse>
           <Button
-            variant="outline-danger"
+            variant="danger"
             style={{ whiteSpace: "nowrap" }}
             onClick={() => setOpenReportModal(true)}
           >

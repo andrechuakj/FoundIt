@@ -14,10 +14,10 @@ const ItemTabs = ({ searchKey }) => {
       justify
       style={{ fontSize: "16px", fontWeight: "bold" }}
     >
-      <Tab eventKey="lost" title="I lost something">
+      <Tab eventKey="lost" title="Found Items">
         <ItemView data={FoundData} searchKey={searchKey} />
       </Tab>
-      <Tab eventKey="found" title="I found something">
+      <Tab eventKey="found" title="Lost Items">
         <ItemView data={LostData} searchKey={searchKey} />
       </Tab>
     </Tabs>

@@ -10,6 +10,9 @@ const ProfileBar = () => {
           height: "150px",
           position: "relative",
           background: "linear-gradient(to bottom, #a1e4ff, #ffffff)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <div
@@ -17,7 +20,7 @@ const ProfileBar = () => {
             position: "absolute",
             top: "50%",
             right: "50%",
-            transform: " translate(50%)",
+            transform: "translateX(50%)",
           }}
         >
           <Image
@@ -28,18 +31,13 @@ const ProfileBar = () => {
               border: "3px solid white",
               height: "120px",
               width: "120px",
-              right: "50%",
-              transform: "translate(50%)",
+              display: "block",
+              margin: "0 auto",
             }}
           />
-          <h4>UserName's Listings</h4>
+          <h4>{"UserName"}</h4>
         </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
     </>
   );
 };
