@@ -12,7 +12,7 @@ const HomePage = () => {
 
   return (
     <>
-    {user ? `${user.contact}, ${user.email}, ${user.password}` : 'no user'}
+      {user ? `${user.contact}, ${user.email}, ${user.password}` : "no user"}
       <Row className="justify-content-md-center" xxl>
         <Col lg="8">
           <div>

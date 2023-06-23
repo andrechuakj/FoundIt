@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { Row, Col } from "react-bootstrap";
 import NavigationBar from "../components/NavigationBar";
 import ProfileBar from "../components/ProfileBar";
 import EditProfileForm from "../components/EditProfileForm";
@@ -16,12 +15,6 @@ export default function EditProfile() {
           <div>
             <NavigationBar searchKey={fakeKey} setSearchKey={setFakeKey} />
           </div>
-          <hr />
-          <ProfileBar />
-          <br />
-          <br />
-          <br />
-          <br />
           <br />
           <EditProfileForm />
         </Col>

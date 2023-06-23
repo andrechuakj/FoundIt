@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import logoOnly from "../assets/LogoOnly.png";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
-import Stack from "react-bootstrap/Stack";
+import { UserContext } from "../contexts/UserContext";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
+import { Link } from "react-router-dom";
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
   const [messageHovered, setMessageHovered] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const { user } = useContext(UserContext);
+  //const userName = `Welcome, ${user.name}`;
 
   const dropdownStyle = {
     display: "inline-block",
@@ -60,9 +62,15 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
     setSearchKey("");
     setShowDeleteButton(false);
   };
+
   return (
     <>
-      <Navbar style={{ backgroundColor: "#57e2fa" }}>
+      <Navbar
+        style={{
+          backgroundColor: "#57e2fa",
+          borderRadius: "0px 0px 10px 10px",
+        }}
+      >
         <Container fluid style={{ position: "relative" }}>
           <Navbar.Brand href="/home-page">
             <img
@@ -108,7 +116,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseEnter={handleHoverDropdown}
                 onMouseLeave={handleLeaveDropdown}
               >
-                <NavDropdown title="Welcome, user">
+                <NavDropdown title={"TODO"}>
                   <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
