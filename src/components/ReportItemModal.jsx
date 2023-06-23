@@ -29,8 +29,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const othersRef = React.useRef(null);
   const locationRef = React.useRef(null);
   const dateRef = React.useRef(null);
-  // const formRef = React.useRef(null);
-  // const defaultImageURL = `https://storage.googleapis.com/orbital-milestone-2-cfb15.appspot.com/noImage.jpg`;
+  const formRef = React.useRef(null);
 
   // Handle file upload event
   const handleFileUpload = async (event) => {
@@ -76,9 +75,9 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
-      event.stopPropagation();
+      setValidated(true)
+      return event.stopPropagation();
     }
-
     try {
       if (lostOrFound === 'lost') {
         const lostItem = {
@@ -118,37 +117,17 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     } catch (error) {
       console.log(error)
     }
-    setValidated(true);
+    
     setSuccessMessage('Form Submitted!')
     setFileUrl(null)
-    console.log("Lost or Found value:", lostOrFound);
-    console.log("ItemName Value:", itemNameRef.current.value);
-    console.log("Category Value:", categoryRef.current.value);
-    console.log("Colour Value:", colourRef.current.value);
-    console.log("Other descriptions Value:", othersRef.current.value);
-    console.log("Location Value:", locationRef.current.value);
-    console.log("Date Value:", dateRef.current.value);
-    console.log("Picture Value:", fileUrl);
-    //resetInputFields()
+    resetInputFields()
   };
 
   const resetInputFields = () => {
-    console.log(lostOrFound)
-    const lostOrFoundValue = lostOrFound
-    // so that 'lost' or 'found' is saved
-
     if (formRef.current) {
       formRef.current.reset();
       setValidated(false)
     }
-    console.log(lostOrFoundValue)
-    handleLostOrFound(lostOrFoundValue)
-    /*
-      yo I try to make this such that default is on 'lose your item'. but issue
-      now is whenever I am on 'found an item' and I press reset, the blue state
-      goes to 'lose your item' when it should remain at 'found an item' ???
-      idk why, cant seem to fix it
-    */
   }
 
   const handleLostOrFound = (value) => {
@@ -157,7 +136,6 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
 
   const handleModalClose = () => {
     setOpenReportModal(false);
-    setLostOrFound('lost');
     setValidated(false)
     setSuccessMessage('')
     setFileUrl(null)
@@ -174,7 +152,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       <Modal.Header closeButton>
         <Modal.Title>Report Item</Modal.Title>
       </Modal.Header>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form noValidate validated={validated} onSubmit={handleSubmit} ref={formRef}>
         {successMessage && <Alert variant="success" className="mb-0 mt-4 d-flex justify-content-center"
           style={{ width: "50%", marginLeft: "7.5rem" }}>
           {successMessage}
