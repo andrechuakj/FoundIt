@@ -13,7 +13,7 @@ const HomePage = () => {
   return (
     <>
     {user ? `${user.contact}, ${user.email}, ${user.name}` : 'no user'}
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center" xxl>
         <Col lg="8">
           <div>
             <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />

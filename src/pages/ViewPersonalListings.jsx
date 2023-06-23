@@ -14,10 +14,18 @@ const ViewPersonalListings = () => {
       <Row className="justify-content-md-center">
         <Col lg="8">
           <div>
-            <NavigationBar searchKey={searchPersonalKey} setSearchKey={setSearchPersonalKey} />
+            <NavigationBar
+              searchKey={searchPersonalKey}
+              setSearchKey={setSearchPersonalKey}
+            />
           </div>
           <hr />
           <ProfileBar />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <PersonalItemTabs searchPersonalKey={searchPersonalKey} />
           <br />
         </Col>
