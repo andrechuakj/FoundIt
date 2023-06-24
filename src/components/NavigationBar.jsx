@@ -10,7 +10,6 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
-import {auth} from "../firebase" 
 import { UserContext } from "../contexts/UserContext";
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
@@ -19,8 +18,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [openReportModal, setOpenReportModal] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const { user } = useContext(UserContext);
-  const userName = `Welcome, ${user.name}`
-
+  const userName = `Welcome, ${user.name}`;
 
   const dropdownStyle = {
     display: "inline-block",
@@ -67,7 +65,12 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   };
   return (
     <>
-      <Navbar style={{ backgroundColor: "#57e2fa" }}>
+      <Navbar
+        style={{
+          backgroundColor: "#57e2fa",
+          borderRadius: "0px 0px 10px 10px",
+        }}
+      >
         <Container fluid style={{ position: "relative" }}>
           <Navbar.Brand href="/home-page">
             <img
@@ -96,7 +99,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
               onClick={handleDeleteClick}
               style={{
                 position: "absolute",
-                right: "330px",
+                right: "341px",
                 top: "50%",
                 transform: "translateY(-50%)",
               }}
