@@ -1,13 +1,14 @@
 import React, { useState, useContext } from "react";
 import logoOnly from "../assets/LogoOnly.png";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import {
+  Container,
+  Navbar,
+  Button,
+  Form,
+  Nav,
+  NavDropdown,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Stack from "react-bootstrap/Stack";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
 import { UserContext } from "../contexts/UserContext";
@@ -59,10 +60,6 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
     setShowDeleteButton(value.length > 0);
   };
 
-  const handleDeleteClick = () => {
-    setSearchKey("");
-    setShowDeleteButton(false);
-  };
   return (
     <>
       <Navbar
@@ -88,26 +85,12 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
           </Navbar.Brand>
 
           <Form.Control
+            type="search"
             className="mx-auto"
             placeholder="Search for item or location..."
             value={searchKey}
             onChange={handleInputChange}
           />
-          {showDeleteButton && (
-            <Button
-              className="delete-button"
-              onClick={handleDeleteClick}
-              style={{
-                position: "absolute",
-                right: "341px",
-                top: "50%",
-                transform: "translateY(-50%)",
-              }}
-            >
-              &#x2716;
-            </Button>
-          )}
-
           <div className="vr ms-3" />
           <Navbar.Collapse>
             <Nav style={{ padding: "4px" }}>

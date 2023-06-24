@@ -100,7 +100,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
                     justify: "center",
                     align: "center",
                     cursor: "pointer",
-                    boxShadow: "2px 2px lightgrey",
+                    boxShadow: "2px 2px 2px lightgrey",
                     transition: "transform 0.3s ease",
                   }}
                   onMouseEnter={(e) => handleHover(item.id, e)}
