@@ -37,6 +37,7 @@ const PersonalItemTabs = ({ searchPersonalKey }) => {
       <Tab eventKey="lost" title="Things I lost">
         <ItemView
           data={personalLostItems}
+          lostOrFound={"lost"}
           searchKey={searchPersonalKey}
           isPersonalView={true}
         />
@@ -44,6 +45,7 @@ const PersonalItemTabs = ({ searchPersonalKey }) => {
       <Tab eventKey="found" title="Things I found">
         <ItemView
           data={personalFoundItems}
+          lostOrFound={"found"}
           searchKey={searchPersonalKey}
           isPersonalView={true}
         />

@@ -58,6 +58,14 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     }
   };
 
+  const filterByReturn = (item) => {
+    if (isPersonalView) {
+      return true;
+    } else {
+      return !item.returned;
+    }
+  };
+
   return (
     <>
       <ItemModal
@@ -65,14 +73,17 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
         onHide={() => setModalShow(false)}
         data={itemToShow}
         lostOrFound={lostOrFound}
+        isPersonalView={isPersonalView}
       />
       <Container>
         <Row className="g-4">
           {data
-            .filter((item) => !item.returned)
+            .filter(filterByReturn)
             .filter(filterByUser)
             .filter(filterBySearch)
-            .sort((x, y) => y.dateReported - x.dateReported)
+            .sort(
+              (x, y) => Date.parse(y.dateReported) - Date.parse(x.dateReported)
+            )
             .map((item) => (
               <Col
                 key={item.id}
@@ -103,20 +114,22 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
                       objectFit: "cover",
                     }}
                   />
-                  {/* {idMatch(item.id) && (
-                  <Card.ImgOverlay
-                    style={{
-                      background: "rgba(0, 0, 0, 0.5)",
-                      color: "#ffffff",
-                      textAlign: "center",
-                      padding: "75px",
-                      height: "200px",
-                      opacity: "0.9",
-                    }}
-                  >
-                    <Card.Text>Click to view details</Card.Text>
-                  </Card.ImgOverlay>
-                )} */}
+                  {item.returned && (
+                    <Card.ImgOverlay
+                      style={{
+                        background: "rgba(0, 0, 0, 0.5)",
+                        color: "#ffffff",
+                        textAlign: "center",
+                        padding: "75px",
+                        height: "200px",
+                        opacity: "0.9",
+                      }}
+                    >
+                      <Card.Text style={{ fontSize: "26px" }}>
+                        Returned
+                      </Card.Text>
+                    </Card.ImgOverlay>
+                  )}
                   <Card.Body>
                     <Card.Title className="text-truncate">
                       {item.itemName}
