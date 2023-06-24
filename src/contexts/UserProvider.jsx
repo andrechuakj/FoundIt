@@ -8,7 +8,8 @@ import UserContext from './UserContext'
 */
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const initialUser = JSON.parse(localStorage.getItem('user')) || null;
+  const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,14 +18,15 @@ const UserProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
       console.log(storedUser)
     }
-    console.log('2')
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }, [user]);
 
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
-    console.log('3')
   };
 
   const logout = () => {

@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import Image from "react-bootstrap/Image";
 import profilePic from "../assets/profile pic.jpeg";
+import { UserContext } from "../contexts/UserContext";
 
 const ProfileBar = () => {
+  const { user } = useContext(UserContext);
+  const userName = `${user.name}`;
+
   return (
     <>
       <div
@@ -21,6 +25,7 @@ const ProfileBar = () => {
             top: "50%",
             right: "50%",
             transform: "translateX(50%)",
+            textAlign: "center",
           }}
         >
           <Image
@@ -35,7 +40,7 @@ const ProfileBar = () => {
               margin: "0 auto",
             }}
           />
-          <h4>{"UserName"}</h4>
+          <h4>{userName}</h4>
         </div>
       </div>
     </>
