@@ -37,10 +37,10 @@ const ItemTabs = ({ searchKey }) => {
       style={{ fontSize: "16px", fontWeight: "bold" }}
     >
       <Tab eventKey="lost" title="Found items">
-        <ItemView data={foundItems} searchKey={searchKey} />
+        <ItemView data={foundItems} lostOrFound="found" searchKey={searchKey} />
       </Tab>
       <Tab eventKey="found" title="Lost items">
-        <ItemView data={lostItems} searchKey={searchKey} />
+        <ItemView data={lostItems} lostOrFound="lost" searchKey={searchKey} />
       </Tab>
     </Tabs>
   );

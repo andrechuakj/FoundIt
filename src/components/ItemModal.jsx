@@ -4,9 +4,10 @@ import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
-const ItemModal = ({ show, onHide, data }) => {
+const ItemModal = ({ show, onHide, data, lostOrFound }) => {
   const handleClaim = () => {
     console.log(data.founder == "" ? data.loster : data.owner);
+    alert('An email has been sent to the person that ')
     onHide();
   };
 
@@ -43,9 +44,14 @@ const ItemModal = ({ show, onHide, data }) => {
         </Container>
         <hr />
         <h4>{data.itemName}</h4>
-        <p>{"Location found/lost: " + data.location}</p>
+        <p>{lostOrFound === 'found' ? "Location found: " + data.location
+          : "Location lost: " + data.location}</p>
         <p>{"Colour: " + data.colour}</p>
         <p>{"Date Reported: " + new Date(data.dateReported).toDateString()}</p>
+        <p>{lostOrFound === 'found' ? "Finder email: " + data.founderEmail
+          : "Owner email: " + data.ownerEmail}</p>
+        <p>{lostOrFound === 'found' ? "Finder contact: " + data.founderContact
+          : "Owner contact: " + data.ownerContact}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={handleClaim}>Claim</Button>
