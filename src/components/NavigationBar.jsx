@@ -4,12 +4,14 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { UserContext } from "../contexts/UserContext";
+import { Link } from "react-router-dom";
+import Stack from "react-bootstrap/Stack";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
-import { Link } from "react-router-dom";
+import {auth} from "../firebase" 
+import { UserContext } from "../contexts/UserContext";
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
@@ -18,6 +20,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const { user } = useContext(UserContext);
   const userName = `Welcome, ${user.name}`
+
 
   const dropdownStyle = {
     display: "inline-block",
@@ -62,15 +65,9 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
     setSearchKey("");
     setShowDeleteButton(false);
   };
-
   return (
     <>
-      <Navbar
-        style={{
-          backgroundColor: "#57e2fa",
-          borderRadius: "0px 0px 10px 10px",
-        }}
-      >
+      <Navbar style={{ backgroundColor: "#57e2fa" }}>
         <Container fluid style={{ position: "relative" }}>
           <Navbar.Brand href="/home-page">
             <img
