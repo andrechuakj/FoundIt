@@ -10,8 +10,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
 import { Link } from "react-router-dom";
-import { UserContext } from "../contexts/UserContext";
-
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
