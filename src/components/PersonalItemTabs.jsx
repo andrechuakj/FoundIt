@@ -35,10 +35,20 @@ const PersonalItemTabs = ({ searchPersonalKey }) => {
       style={{ fontSize: "16px", fontWeight: "bold" }}
     >
       <Tab eventKey="lost" title="Things I lost">
-        <ItemView data={personalLostItems} searchKey={searchPersonalKey} />
+        <ItemView
+          data={personalLostItems}
+          lostOrFound={"lost"}
+          searchKey={searchPersonalKey}
+          isPersonalView={true}
+        />
       </Tab>
       <Tab eventKey="found" title="Things I found">
-        <ItemView data={personalFoundItems} searchKey={searchPersonalKey} />
+        <ItemView
+          data={personalFoundItems}
+          lostOrFound={"found"}
+          searchKey={searchPersonalKey}
+          isPersonalView={true}
+        />
       </Tab>
     </Tabs>
   );

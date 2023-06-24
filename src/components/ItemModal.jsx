@@ -4,11 +4,29 @@ import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
-const ItemModal = ({ show, onHide, data, lostOrFound }) => {
+const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
-    console.log(data.founder == "" ? data.loster : data.owner);
-    alert('An email has been sent to the person that ')
+    console.log(data.founder);
+    alert("An email has been sent to the finder to return it to you.");
     onHide();
+  };
+
+  const handleReturn = () => {
+    console.log(data.owner);
+    alert("An email has been sent to the owner to retrieve it from you.");
+    onHide();
+  };
+
+  const handleClaimed = () => {
+    console.log(data.founder);
+    onHide();
+    //change data.returned to true here
+  };
+
+  const handleReturned = () => {
+    console.log(data.owner);
+    onHide();
+    //change data.returned to true here
   };
 
   return (
@@ -44,17 +62,37 @@ const ItemModal = ({ show, onHide, data, lostOrFound }) => {
         </Container>
         <hr />
         <h4>{data.itemName}</h4>
-        <p>{lostOrFound === 'found' ? "Location found: " + data.location
-          : "Location lost: " + data.location}</p>
+        <p>
+          {lostOrFound === "found"
+            ? "Location found: " + data.location
+            : "Location lost: " + data.location}
+        </p>
         <p>{"Colour: " + data.colour}</p>
         <p>{"Date Reported: " + new Date(data.dateReported).toDateString()}</p>
-        <p>{lostOrFound === 'found' ? "Finder email: " + data.founderEmail
-          : "Owner email: " + data.ownerEmail}</p>
-        <p>{lostOrFound === 'found' ? "Finder contact: " + data.founderContact
-          : "Owner contact: " + data.ownerContact}</p>
+        <p>
+          {lostOrFound === "found"
+            ? "Finder email: " + data.founderEmail
+            : "Owner email: " + data.ownerEmail}
+        </p>
+        <p>
+          {lostOrFound === "found"
+            ? "Finder contact: " + data.founderContact
+            : "Owner contact: " + data.ownerContact}
+        </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={handleClaim}>Claim</Button>
+        {lostOrFound == "found" && !isPersonalView && (
+          <Button onClick={handleClaim}>Claim</Button>
+        )}
+        {lostOrFound == "lost" && !isPersonalView && (
+          <Button onClick={handleReturn}>Return</Button>
+        )}
+        {lostOrFound == "found" && isPersonalView && !data.returned && (
+          <Button onClick={handleClaimed}>Claimed</Button>
+        )}
+        {lostOrFound == "lost" && isPersonalView && !data.returned && (
+          <Button onClick={handleReturned}>Returned</Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

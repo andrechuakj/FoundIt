@@ -5,6 +5,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import UserContext from "../contexts/UserContext";
 import { Alert } from "react-bootstrap";
+import logo from "../assets/Logo.png";
 
 export default function LogIn() {
   const [email, setEmail] = useState("");
@@ -72,7 +73,9 @@ export default function LogIn() {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="form">
-        <h1 className="log-in-sign-up-title">Log In</h1>
+        <img src={logo} />
+        <hr />
+        <h4 className="log-in-sign-up-title">Log In</h4>
         {error && (
           <Alert variant="danger" className="alert">
             {error}
