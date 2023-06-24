@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 /*
+test
   By right, all the pages that are not login/signup should be PrivateRoute,
   if not users can go to eg. /home/logout from the login page by simply
   typing it in the search bar, but lets settle that another day
