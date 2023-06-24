@@ -29,13 +29,13 @@ const ItemTabs = ({ searchKey }) => {
 
   return (
     <Tabs
-      defaultActiveKey="lost"
+      defaultActiveKey="found"
       id="justify-tab-example"
       className="mb-3"
       justify
       style={{ fontSize: "20px", fontWeight: "bold" }}
     >
-      <Tab eventKey="lost" title="Found items">
+      <Tab eventKey="found" title="Found items">
         <ItemView
           data={foundItems}
           lostOrFound="found"
@@ -43,7 +43,7 @@ const ItemTabs = ({ searchKey }) => {
           isPersonalView={false}
         />
       </Tab>
-      <Tab eventKey="found" title="Lost items">
+      <Tab eventKey="lost" title="Lost items">
         <ItemView
           data={lostItems}
           lostOrFound="lost"

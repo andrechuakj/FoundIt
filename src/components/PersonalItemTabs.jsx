@@ -28,24 +28,24 @@ const PersonalItemTabs = ({ searchPersonalKey }) => {
   }, []);
   return (
     <Tabs
-      defaultActiveKey="lost"
+      defaultActiveKey="found"
       id="justify-tab-example"
       className="mb-3"
       justify
       style={{ fontSize: "16px", fontWeight: "bold" }}
     >
-      <Tab eventKey="lost" title="Things I lost">
-        <ItemView
-          data={personalLostItems}
-          lostOrFound={"lost"}
-          searchKey={searchPersonalKey}
-          isPersonalView={true}
-        />
-      </Tab>
       <Tab eventKey="found" title="Things I found">
         <ItemView
           data={personalFoundItems}
           lostOrFound={"found"}
+          searchKey={searchPersonalKey}
+          isPersonalView={true}
+        />
+      </Tab>
+      <Tab eventKey="lost" title="Things I lost">
+        <ItemView
+          data={personalLostItems}
+          lostOrFound={"lost"}
           searchKey={searchPersonalKey}
           isPersonalView={true}
         />

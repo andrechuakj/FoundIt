@@ -66,6 +66,20 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     }
   };
 
+  const sortByReturned = (x, y) => {
+    if (!isPersonalView) {
+      return 0;
+    } else {
+      if (x.returned && !y.returned) {
+        return 1;
+      } else if (!x.returned && y.returned) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+  };
+
   return (
     <>
       <ItemModal
@@ -84,6 +98,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
             .sort(
               (x, y) => Date.parse(y.dateReported) - Date.parse(x.dateReported)
             )
+            .sort(sortByReturned)
             .map((item) => (
               <Col
                 key={item.id}
@@ -126,7 +141,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
                       }}
                     >
                       <Card.Text style={{ fontSize: "26px" }}>
-                        Returned
+                        {lostOrFound == "lost" ? "Claimed" : "Returned"}
                       </Card.Text>
                     </Card.ImgOverlay>
                   )}
