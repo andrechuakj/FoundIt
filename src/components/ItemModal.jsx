@@ -1,19 +1,9 @@
 import React from "react";
 import { Modal, Button, Image, Container } from "react-bootstrap";
-import {
-  updateDoc,
-  doc,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
-  const foundItemsRef = collection(db, "foundItems");
-  const lostItemsRef = collection(db, "lostItems");
-
   const handleClaim = () => {
     console.log(data.founder);
     alert("An email has been sent to the finder to return it to you.");

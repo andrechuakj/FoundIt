@@ -30,10 +30,6 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     e.currentTarget.style.transform = "scale(1)";
   };
 
-  const idMatch = (id) => {
-    return id == idHovered;
-  };
-
   const handleClick = (item) => {
     setItemToShow(item);
     setModalShow(true);
