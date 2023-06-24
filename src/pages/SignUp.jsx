@@ -43,6 +43,7 @@ export default function SignUp() {
         email,
         contact,
         password,
+        id: user.uid,
       });
       resetInputFields();
       setSuccessMessage("Sign up successful!");
