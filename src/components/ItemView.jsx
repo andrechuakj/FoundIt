@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import ItemModal from "./ItemModal";
 
 
-const ItemView = ({ data, searchKey }) => {
+const ItemView = ({ data, lostOrFound, searchKey }) => {
   const [idHovered, setIdHovered] = React.useState(null);
   const [modalShow, setModalShow] = React.useState(false);
   const [itemToShow, setItemToShow] = React.useState({
@@ -54,6 +54,7 @@ const ItemView = ({ data, searchKey }) => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         data={itemToShow}
+        lostOrFound={lostOrFound}
       />
       <Row className="g-4">
         {data
@@ -63,7 +64,7 @@ const ItemView = ({ data, searchKey }) => {
           .map((item) => (
             <Col
               key={item.id}
-              // style={{ display: "flex", justifyContent: "center" }}
+            // style={{ display: "flex", justifyContent: "center" }}
             >
               <Card
                 id={item.id}
