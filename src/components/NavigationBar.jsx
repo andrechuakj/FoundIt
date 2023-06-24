@@ -10,6 +10,7 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
+import {auth} from "../firebase" 
 import { UserContext } from "../contexts/UserContext";
 
 
@@ -20,6 +21,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const { user } = useContext(UserContext);
   const userName = `Welcome, ${user.name}`
+
 
   const dropdownStyle = {
     display: "inline-block",
