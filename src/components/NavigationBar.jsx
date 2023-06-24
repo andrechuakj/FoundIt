@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import logoOnly from "../assets/LogoOnly.png";
 import {
   Container,
@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
 import { UserContext } from "../contexts/UserContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
@@ -19,7 +21,28 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [openReportModal, setOpenReportModal] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const { user } = useContext(UserContext);
-  const userName = `Welcome, ${user.name}`;
+  const userID = `${user.id}`;
+  const [userName, setUserName] = React.useState("");
+
+  useEffect(() => {
+    fetchDocument(userID);
+  }, []);
+
+  const fetchDocument = async (docId) => {
+    try {
+      const docRef = doc(db, "users", docId);
+      const documentSnapshot = await getDoc(docRef);
+
+      if (documentSnapshot.exists()) {
+        const documentData = documentSnapshot.data();
+        setUserName(documentData.name);
+      } else {
+        console.log("Document does not exist");
+      }
+    } catch (error) {
+      console.log("Error fetching document:", error);
+    }
+  };
 
   const dropdownStyle = {
     display: "inline-block",
@@ -99,7 +122,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseEnter={handleHoverDropdown}
                 onMouseLeave={handleLeaveDropdown}
               >
-                <NavDropdown title={userName}>
+                <NavDropdown title={"Welcome, " + userName}>
                   <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>

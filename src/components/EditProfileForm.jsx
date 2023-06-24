@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   FloatingLabel,
   Button,
@@ -10,8 +10,10 @@ import {
   ListGroup,
   Tab,
 } from "react-bootstrap";
-import profilePic from "../assets/profile pic.jpeg";
 import { UserContext } from "../contexts/UserContext";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const EditProfileForm = () => {
   const [picSelected, setPicSelected] = React.useState(false);
@@ -22,10 +24,34 @@ const EditProfileForm = () => {
   const [passwordChanged, setPasswordChanged] = React.useState(false);
   const [usernameChanged, setUsernameChanged] = React.useState(false);
   const [uploadedPhoto, setUploadedPhoto] = React.useState(false);
+  const [fileUrl, setFileUrl] = React.useState(null);
   const { user } = useContext(UserContext);
   const userEmail = `${user.email}`;
-  const userName = `${user.name}`;
   const userPassword = `${user.password}`;
+  const userID = `${user.id}`;
+  const [profilePic, setProfilePic] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+
+  const fetchDocument = async (docId) => {
+    try {
+      const docRef = doc(db, "users", docId);
+      const documentSnapshot = await getDoc(docRef);
+
+      if (documentSnapshot.exists()) {
+        const documentData = documentSnapshot.data();
+        setProfilePic(documentData.profilePic);
+        setUserName(documentData.name);
+      } else {
+        console.log("Document does not exist");
+      }
+    } catch (error) {
+      console.log("Error fetching document:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDocument(userID);
+  }, []);
 
   const picSubmitted = React.useRef(null);
   const nameSubmitted = React.useRef(null);
@@ -41,20 +67,30 @@ const EditProfileForm = () => {
     boxShadow: "2px 2px lightgrey",
   };
 
-  //When save button is clicked after uploading pic
-  const handlePicSubmit = (event) => {
-    event.preventDefault();
-    setUploadedPhoto(true);
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
 
-    //for logging
-    const selectedFile = picSubmitted.current.files[0];
-    console.log(selectedFile);
+    if (file) {
+      const storageRef = ref(storage, file.name);
 
-    //do backend stuff here
+      try {
+        // Upload file to Firebase Storage
+        await uploadBytes(storageRef, file);
+
+        // Get the download URL of the uploaded file
+        const downloadURL = await getDownloadURL(storageRef);
+        setFileUrl(downloadURL);
+        setProfilePic(downloadURL);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    }
   };
 
   //For displaying new profile pic after upload
   const handleFileChange = (event) => {
+    console.log(userID);
+    handleFileUpload(event);
     setPicSelected(true);
     //for displaying selected image
     const file = event.target.files[0];
@@ -63,6 +99,15 @@ const EditProfileForm = () => {
       setSelectedImage(reader.result);
     };
     reader.readAsDataURL(file);
+  };
+
+  //When save button is clicked after uploading pic
+  const handlePicSubmit = async (event) => {
+    event.preventDefault();
+    const userDoc = doc(db, "users", userID);
+    console.log(userDoc);
+    await updateDoc(userDoc, { profilePic: fileUrl });
+    setUploadedPhoto(true);
   };
 
   //For displaying save button when a new username is typed
@@ -78,8 +123,9 @@ const EditProfileForm = () => {
   };
 
   //For submitting username after save button is clicked
-  const handleNameSubmit = (event) => {
-    event.preventDefault();
+  const handleNameSubmit = async () => {
+    const itemReturnedDoc = doc(db, "users", userID);
+    await updateDoc(itemReturnedDoc, { name: nameSubmitted.current.value });
     setUsernameChanged(true);
     console.log(nameSubmitted.current.value);
 
@@ -168,6 +214,7 @@ const EditProfileForm = () => {
                           border: "3px solid white",
                           height: "150px",
                           width: "150px",
+                          objectFit: "cover",
                         }}
                       />
                     </Container>
