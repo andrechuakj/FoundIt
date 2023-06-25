@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, db } from "../firebase";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { Alert } from "react-bootstrap";
 import noProfilePic from "../assets/profile pic.jpeg";
@@ -18,7 +18,6 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async (email, password, name, contact) => {
-    setSuccessMessage('')
     if (password !== confirmPassword) {
       return setError("Passwords do not match");
     }
@@ -38,10 +37,6 @@ export default function SignUp() {
         email,
         password
       );
-
-      // Send email verification, might want to implement this for milestone 3
-      // await sendEmailVerification(user);
-
       // Save user data to Cloud Firestore
       const userDocRef = doc(collection(db, "users"), user.uid);
       await setDoc(userDocRef, {
@@ -52,30 +47,28 @@ export default function SignUp() {
         id: user.uid,
         profilePic: noProfilePic,
       });
+      resetInputFields();
+      setSuccessMessage("Sign up successful!");
       console.log("User signed up successfully.");
     } catch (error) {
-      setLoading(false);
       switch (error.code) {
         case "auth/email-already-in-use":
           setError("Account with that email already exists");
-          return;
+          break;
         case "auth/missing-email":
           setError("Please fill in your email");
-          return;
+          break;
         case "auth/missing-password":
           setError("Please fill in your password");
-          return;
+          break;
         case "auth/weak-password":
           setError("Password must be at least 6 characters long");
-          return;
+          break;
         default:
           setError("Failed to create an account");
-          return;
           console.log(error.code);
       }
     }
-    resetInputFields();
-    setSuccessMessage("Sign up successful!");
     setLoading(false);
   };
 
