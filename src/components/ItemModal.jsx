@@ -4,6 +4,10 @@ import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import Container from "react-bootstrap/Container";
 
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from "../firebase";
+
+
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
     console.log(data.founder);
@@ -20,13 +24,37 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaimed = () => {
     console.log(data.founder);
     onHide();
-    //change data.returned to true here
+    // change data.returned to true here
+    const documentId = data.id;
+    
+    // Get a reference to the document
+    const itemRef = doc(db, 'foundItems', documentId);
+    updateDoc(itemRef, { returned: true })
+      .then(() => {
+        console.log('data.returned successfully changed to true')
+      })
+      .catch((error) => {
+        console.log('data.returned cannot be changed', error)
+      })
+
   };
 
   const handleReturned = () => {
     console.log(data.owner);
     onHide();
     //change data.returned to true here
+    const documentId = data.id;
+    
+    // Get a reference to the document
+    const itemRef = doc(db, 'lostItems', documentId);
+    updateDoc(itemRef, { returned: true })
+      .then(() => {
+        console.log('data.returned successfully changed to true')
+      })
+      .catch((error) => {
+        console.log('data.returned cannot be changed', error)
+      })
+
   };
 
   return (
