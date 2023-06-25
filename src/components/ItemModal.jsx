@@ -105,11 +105,6 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
             ? "Finder email: " + data.founderEmail
             : "Owner email: " + data.ownerEmail}
         </p>
-        <p>
-          {lostOrFound === "found"
-            ? "Finder contact: " + data.founderContact
-            : "Owner contact: " + data.ownerContact}
-        </p>
       </Modal.Body>
       <Modal.Footer>
         {lostOrFound == "found" && !isPersonalView && (
