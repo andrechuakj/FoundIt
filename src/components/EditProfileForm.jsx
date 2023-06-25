@@ -64,7 +64,7 @@ const EditProfileForm = () => {
     borderRadius: "10px",
     borderColor: "#c9c9c9",
     padding: "30px",
-    boxShadow: "2px 2px lightgrey",
+    boxShadow: "2px 2px 2px lightgrey",
   };
 
   const handleFileUpload = async (event) => {
@@ -186,7 +186,7 @@ const EditProfileForm = () => {
         defaultActiveKey="#editProfile"
       >
         <Row>
-          <Col sm={3}>
+          <Col sm={3} style={{ height: `calc(100vh - 400px)` }}>
             <ListGroup>
               <ListGroup.Item action href="#editProfile">
                 Edit Profile Details

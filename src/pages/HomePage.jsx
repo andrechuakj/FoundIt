@@ -11,32 +11,39 @@ const HomePage = () => {
 
   return (
     <>
-      <div>
-        <Row className="justify-content-md-center" xxl>
-          <Col lg="8">
-            <div>
-              <NavigationBar
-                searchKey={searchKey}
-                setSearchKey={setSearchKey}
-              />
-            </div>
-            <hr />
-            <div
-              style={{
-                border: "1px solid grey",
-                padding: "2px",
-                borderRadius: "15px",
-                display:"inline-block",
-                marginBottom:"5px"
-              }}
-            >
-              <CategoryDropdown category={category} setCategory={setCategory} />
-            </div>
-            <ItemTabs searchKey={searchKey} categoryFilter={category}/>
-            <br />
-          </Col>
-        </Row>
-      </div>
+      <Row
+        className="justify-content-md-center"
+        xxl
+        style={{ height: "100vh" }}
+      >
+        <Col
+          lg="8"
+          style={{
+            border: "1px solid lightgrey",
+            boxShadow: "0 0 10px black",
+            backgroundColor: "white",
+          }}
+        >
+          <div style={{}}>
+            <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
+          </div>
+          <hr />
+          <div
+            style={{
+              border: "1px solid grey",
+              padding: "2px",
+              borderRadius: "15px",
+              display: "inline-block",
+              marginBottom: "5px",
+              background: "white",
+            }}
+          >
+            <CategoryDropdown category={category} setCategory={setCategory} />
+          </div>
+          <ItemTabs searchKey={searchKey} categoryFilter={category} />
+          <br />
+        </Col>
+      </Row>
     </>
   );
 };
