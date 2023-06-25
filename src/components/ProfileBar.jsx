@@ -1,11 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Image from "react-bootstrap/Image";
-import profilePic from "../assets/profile pic.jpeg";
 import { UserContext } from "../contexts/UserContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
 
 const ProfileBar = () => {
   const { user } = useContext(UserContext);
-  const userName = `${user.name}`;
+  const userId = `${user.id}`;
+  const [profilePic, setProfilePic] = React.useState("");
+  const [userName, setUserName] = React.useState("");
+
+  useEffect(() => {
+    fetchDocument(userId);
+  }, []);
+
+  const fetchDocument = async (docId) => {
+    try {
+      const docRef = doc(db, "users", docId);
+      const documentSnapshot = await getDoc(docRef);
+
+      if (documentSnapshot.exists()) {
+        const documentData = documentSnapshot.data();
+        setProfilePic(documentData.profilePic);
+        setUserName(documentData.name);
+      } else {
+        console.log("Document does not exist");
+      }
+    } catch (error) {
+      console.log("Error fetching document:", error);
+    }
+  };
 
   return (
     <>

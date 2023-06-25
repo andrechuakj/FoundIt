@@ -12,17 +12,23 @@ const HomePage = () => {
 
   return (
     <>
-    {/* {user ? `${user.contact}, ${user.email}, ${user.name}` : 'no user'} */}
-      <Row className="justify-content-md-center" xxl>
-        <Col lg="8">
-          <div>
-            <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
-          </div>
-          <hr />
-          <ItemTabs searchKey={searchKey} />
-          <br />
-        </Col>
-      </Row>
+      {/* {user ? `${user.contact}, ${user.email}, ${user.name}` : 'no user'} */}
+      <div></div>
+      <div>
+        <Row className="justify-content-md-center" xxl>
+          <Col lg="8" style={{ boxShadow:"5px 5px 5px lightgrey"}}>
+            <div>
+              <NavigationBar
+                searchKey={searchKey}
+                setSearchKey={setSearchKey}
+              />
+            </div>
+            <hr />
+            <ItemTabs searchKey={searchKey} />
+            <br />
+          </Col>
+        </Row>
+      </div>
     </>
   );
 };

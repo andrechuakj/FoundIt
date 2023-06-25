@@ -1,27 +1,36 @@
-import React, { useContext } from 'react'
-import { UserContext } from "../contexts/UserContext"
-import { Link } from "react-router-dom"
+import React, { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+import { Form, Link, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export default function Logout() {
-  const { user, logout } = useContext(UserContext)
+  const { user, logout } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
   };
 
+  const handleCancel = () => {
+    navigate("/home-page");
+  };
+
   return (
-    <div>
-      <h3>Logout Confirmation</h3>
-      <p>Are you sure you want to log out?</p>
-      <div className="logout-buttons">
-        <button onClick={handleLogout}>
-          Log out
-        </button>
-        <p>{user ? `${user.contact}, ${user.email}` : 'no user'}</p>
-        <button>
-          <Link to="/home-page">Cancel</Link>
-        </button>
-      </div>
+    <div className="form-container">
+      <form
+        style={{
+          boxShadow: "3px 3px 3px lightgrey",
+          padding: "30px",
+          borderRadius: "10px",
+        }}
+      >
+        <h4 className="log-in-sign-up-title">Log out?</h4>
+        <br />
+        <Button onClick={handleLogout}>Log out</Button>{" "}
+        <Button variant="outline-danger" onClick={handleCancel}>
+          Cancel
+        </Button>
+      </form>
     </div>
-  )
+  );
 }
