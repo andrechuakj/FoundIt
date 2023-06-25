@@ -5,7 +5,7 @@ import ItemView from "./ItemView";
 import { db } from "../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 
-const ItemTabs = ({ searchKey }) => {
+const ItemTabs = ({ searchKey, categoryFilter }) => {
   const [lostItems, setLostItems] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
 
@@ -28,30 +28,34 @@ const ItemTabs = ({ searchKey }) => {
   }, []);
 
   return (
-    <Tabs
-      defaultActiveKey="found"
-      id="justify-tab-example"
-      className="mb-3"
-      justify
-      style={{ fontSize: "20px", fontWeight: "bold" }}
-    >
-      <Tab eventKey="found" title="Found Items">
-        <ItemView
-          data={foundItems}
-          lostOrFound="found"
-          searchKey={searchKey}
-          isPersonalView={false}
-        />
-      </Tab>
-      <Tab eventKey="lost" title="Lost Items">
-        <ItemView
-          data={lostItems}
-          lostOrFound="lost"
-          searchKey={searchKey}
-          isPersonalView={false}
-        />
-      </Tab>
-    </Tabs>
+    <div>
+      <Tabs
+        defaultActiveKey="found"
+        id="justify-tab-example"
+        className="mb-3"
+        justify
+        style={{ fontSize: "20px", fontWeight: "bold" }}
+      >
+        <Tab eventKey="found" title="Found Items">
+          <ItemView
+            data={foundItems}
+            lostOrFound="found"
+            searchKey={searchKey}
+            isPersonalView={false}
+            categoryFilter={categoryFilter}
+          />
+        </Tab>
+        <Tab eventKey="lost" title="Lost Items">
+          <ItemView
+            data={lostItems}
+            lostOrFound="lost"
+            searchKey={searchKey}
+            isPersonalView={false}
+            categoryFilter={categoryFilter}
+          />
+        </Tab>
+      </Tabs>
+    </div>
   );
 };
 

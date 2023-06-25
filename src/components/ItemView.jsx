@@ -3,7 +3,13 @@ import { Card, Col, Row, Container } from "react-bootstrap";
 import ItemModal from "./ItemModal";
 import { UserContext } from "../contexts/UserContext";
 
-const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
+const ItemView = ({
+  data,
+  lostOrFound,
+  searchKey,
+  isPersonalView,
+  categoryFilter,
+}) => {
   const [idHovered, setIdHovered] = React.useState(null);
   const [modalShow, setModalShow] = React.useState(false);
   const { user } = useContext(UserContext);
@@ -62,6 +68,14 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     }
   };
 
+  const filterByCategory = (item) => {
+    if (categoryFilter == null) {
+      return true;
+    } else {
+      return item.category == categoryFilter;
+    }
+  };
+
   const sortByReturned = (x, y) => {
     if (!isPersonalView) {
       return 0;
@@ -85,75 +99,75 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
         lostOrFound={lostOrFound}
         isPersonalView={isPersonalView}
       />
-      <Container>
-        <Row className="g-4">
+      <Container fluid>
+        <Row className="g-4 d-flex flex-wrap">
           {data
             .filter(filterByReturn)
             .filter(filterByUser)
+            .filter(filterByCategory)
             .filter(filterBySearch)
             .sort(
               (x, y) => Date.parse(y.dateReported) - Date.parse(x.dateReported)
             )
             .sort(sortByReturned)
             .map((item) => (
-              <Col
-                key={item.id}
-                // style={{ display: "flex", justifyContent: "center" }}
-              >
-                <Card
-                  id={item.id}
-                  onClick={() => handleClick(item)}
-                  style={{
-                    width: "280px",
-                    height: "400px",
-                    position: "relative",
-                    display: "flex",
-                    justify: "center",
-                    align: "center",
-                    cursor: "pointer",
-                    boxShadow: "2px 2px 2px lightgrey",
-                    transition: "transform 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => handleHover(item.id, e)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Card.Img
-                    variant="top"
-                    src={item.itemPicture}
+              <div key={item.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div className="d-flex justify-content-center align-items-center h-100">
+                  <Card
+                    id={item.id}
+                    onClick={() => handleClick(item)}
                     style={{
-                      height: "200px",
-                      objectFit: "cover",
+                      width: "280px",
+                      height: "400px",
+                      position: "relative",
+                      display: "flex",
+                      justify: "center",
+                      align: "center",
+                      cursor: "pointer",
+                      boxShadow: "2px 2px 2px lightgrey",
+                      transition: "transform 0.3s ease",
                     }}
-                  />
-                  {item.returned && (
-                    <Card.ImgOverlay
+                    onMouseEnter={(e) => handleHover(item.id, e)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <Card.Img
+                      variant="top"
+                      src={item.itemPicture}
                       style={{
-                        background: "rgba(0, 0, 0, 0.5)",
-                        color: "#ffffff",
-                        textAlign: "center",
-                        padding: "75px",
                         height: "200px",
-                        opacity: "0.9",
+                        objectFit: "cover",
                       }}
-                    >
-                      <Card.Text style={{ fontSize: "26px" }}>
-                        {lostOrFound == "lost" ? "Claimed" : "Returned"}
+                    />
+                    {item.returned && (
+                      <Card.ImgOverlay
+                        style={{
+                          background: "rgba(0, 0, 0, 0.5)",
+                          color: "#ffffff",
+                          textAlign: "center",
+                          padding: "75px",
+                          height: "200px",
+                          opacity: "0.9",
+                        }}
+                      >
+                        <Card.Text style={{ fontSize: "26px" }}>
+                          {lostOrFound == "lost" ? "Claimed" : "Returned"}
+                        </Card.Text>
+                      </Card.ImgOverlay>
+                    )}
+                    <Card.Body>
+                      <Card.Title className="text-truncate">
+                        {item.itemName}
+                      </Card.Title>
+                      <Card.Text style={{ overflow: "hidden" }}>
+                        {item.location}
                       </Card.Text>
-                    </Card.ImgOverlay>
-                  )}
-                  <Card.Body>
-                    <Card.Title className="text-truncate">
-                      {item.itemName}
-                    </Card.Title>
-                    <Card.Text style={{ overflow: "hidden" }}>
-                      {item.location}
-                    </Card.Text>
-                    <Card.Text style={{ overflow: "hidden" }}>
-                      {item.dateReported}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
+                      <Card.Text style={{ overflow: "hidden" }}>
+                        {item.dateReported}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
             ))}
         </Row>
       </Container>

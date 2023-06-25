@@ -8,7 +8,7 @@ import UserContext from './UserContext'
 */
 
 const UserProvider = ({ children }) => {
-  const initialUser = JSON.parse(localStorage.getItem('user'));
+  const initialUser = JSON.parse(localStorage.getItem('user')) || null;
   const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 

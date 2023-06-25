@@ -1,34 +1,49 @@
 import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
 import NavigationBar from "../components/NavigationBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ItemTabs from "../components/ItemTabs";
+import CategoryDropdown from "../components/CategoryDropdown";
 
 const HomePage = () => {
   const [searchKey, setSearchKey] = React.useState("");
-
-  const { user } = useContext(UserContext);
+  const [category, setCategory] = React.useState(null);
 
   return (
     <>
-      {/* {user ? `${user.contact}, ${user.email}, ${user.name}` : 'no user'} */}
-      <div></div>
-      <div>
-        <Row className="justify-content-md-center" xxl>
-          <Col lg="8" style={{ boxShadow:"5px 5px 5px lightgrey"}}>
-            <div>
-              <NavigationBar
-                searchKey={searchKey}
-                setSearchKey={setSearchKey}
-              />
-            </div>
-            <hr />
-            <ItemTabs searchKey={searchKey} />
-            <br />
-          </Col>
-        </Row>
-      </div>
+      <Row
+        className="justify-content-md-center"
+        xxl
+        style={{ height: "100vh" }}
+      >
+        <Col
+          lg="8"
+          style={{
+            border: "1px solid lightgrey",
+            boxShadow: "0 0 10px black",
+            backgroundColor: "white",
+          }}
+        >
+          <div style={{}}>
+            <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
+          </div>
+          <hr />
+          <div
+            style={{
+              border: "1px solid grey",
+              padding: "2px",
+              borderRadius: "15px",
+              display: "inline-block",
+              marginBottom: "5px",
+              background: "white",
+            }}
+          >
+            <CategoryDropdown category={category} setCategory={setCategory} />
+          </div>
+          <ItemTabs searchKey={searchKey} categoryFilter={category} />
+          <br />
+        </Col>
+      </Row>
     </>
   );
 };
