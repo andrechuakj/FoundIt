@@ -30,10 +30,6 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     e.currentTarget.style.transform = "scale(1)";
   };
 
-  const idMatch = (id) => {
-    return id == idHovered;
-  };
-
   const handleClick = (item) => {
     setItemToShow(item);
     setModalShow(true);
@@ -66,6 +62,20 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     }
   };
 
+  const sortByReturned = (x, y) => {
+    if (!isPersonalView) {
+      return 0;
+    } else {
+      if (x.returned && !y.returned) {
+        return 1;
+      } else if (!x.returned && y.returned) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+  };
+
   return (
     <>
       <ItemModal
@@ -84,6 +94,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
             .sort(
               (x, y) => Date.parse(y.dateReported) - Date.parse(x.dateReported)
             )
+            .sort(sortByReturned)
             .map((item) => (
               <Col
                 key={item.id}
@@ -100,7 +111,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
                     justify: "center",
                     align: "center",
                     cursor: "pointer",
-                    boxShadow: "2px 2px lightgrey",
+                    boxShadow: "2px 2px 2px lightgrey",
                     transition: "transform 0.3s ease",
                   }}
                   onMouseEnter={(e) => handleHover(item.id, e)}
@@ -126,7 +137,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
                       }}
                     >
                       <Card.Text style={{ fontSize: "26px" }}>
-                        Returned
+                        {lostOrFound == "lost" ? "Claimed" : "Returned"}
                       </Card.Text>
                     </Card.ImgOverlay>
                   )}
