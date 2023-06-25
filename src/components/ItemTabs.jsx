@@ -5,7 +5,7 @@ import ItemView from "./ItemView";
 import { db } from "../firebase";
 import { collection, onSnapshot } from "firebase/firestore";
 
-const ItemTabs = ({ searchKey }) => {
+const ItemTabs = ({ searchKey, categoryFilter }) => {
   const [lostItems, setLostItems] = useState([]);
   const [foundItems, setFoundItems] = useState([]);
 
@@ -41,6 +41,7 @@ const ItemTabs = ({ searchKey }) => {
           lostOrFound="found"
           searchKey={searchKey}
           isPersonalView={false}
+          categoryFilter={categoryFilter}
         />
       </Tab>
       <Tab eventKey="lost" title="Lost items">
@@ -49,6 +50,7 @@ const ItemTabs = ({ searchKey }) => {
           lostOrFound="lost"
           searchKey={searchKey}
           isPersonalView={false}
+          categoryFilter={categoryFilter}
         />
       </Tab>
     </Tabs>

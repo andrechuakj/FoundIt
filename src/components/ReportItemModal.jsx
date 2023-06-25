@@ -6,6 +6,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import { Container, FormLabel, Alert } from "react-bootstrap";
 import noImage from "../assets/noImage.jpg";
+import CategoryDropdown from "./CategoryDropdown";
 
 import { collection, addDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
@@ -18,13 +19,12 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
   const [validated, setValidated] = useState(false);
   const { user } = useContext(UserContext);
-  const generateUUID = () => crypto.randomUUID();
   const [successMessage, setSuccessMessage] = useState("");
   const [fileUrl, setFileUrl] = useState(null);
   const [lostItems, setLostItems] = useState([]);
 
   const itemNameRef = React.useRef(null);
-  const categoryRef = React.useRef(null);
+  const [categoryRef, setCategoryRef] = React.useState(null);
   const colourRef = React.useRef(null);
   const othersRef = React.useRef(null);
   const locationRef = React.useRef(null);
@@ -71,7 +71,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     const unsubscribe = onSnapshot(collection(db, "lostItems"), (snapshot) => {
       const items = snapshot.docs.map((doc) => doc.data());
       setLostItems(items);
-      console.log(items);
+      console.log("lostItems: ", items);
     });
 
     // Cleanup the listener when the component unmounts
@@ -130,14 +130,14 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       if (lostOrFound === "lost") {
         const lostItem = {
           itemName: itemNameRef.current.value,
-          category: categoryRef.current.value,
+          category: categoryRef,
           colour: colourRef.current.value,
           others: othersRef.current.value,
           location: locationRef.current.value,
           dateReported: dateRef.current.value,
           itemPicture: fileUrl ? fileUrl : noImage,
 
-          //id: generateUUID(),
+          id: generateUUID(),
           founder: null,
           owner: `${user.name}`,
           ownerEmail: `${user.email}`,
@@ -148,14 +148,14 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       } else if (lostOrFound === "found") {
         const foundItem = {
           itemName: itemNameRef.current.value,
-          category: categoryRef.current.value,
+          category: categoryRef,
           colour: colourRef.current.value,
           others: othersRef.current.value,
           location: locationRef.current.value,
           dateReported: dateRef.current.value,
           itemPicture: fileUrl ? fileUrl : noImage,
 
-          //id: generateUUID(),
+          id: generateUUID(),
           founder: `${user.name}`,
           founderEmail: `${user.email}`,
           founderContact: `${user.contact}`,
@@ -185,7 +185,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
             foundItem.itemName.toLowerCase().replace(/\s/g, "")
           );
 
-          return distance <= similarityThreshold;
+          return distance <= similarityThreshold && lostItem.returned === false;
         });
 
         /*
@@ -236,15 +236,17 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     } catch (error) {
       console.log(error);
     }
-    setSuccessMessage("Form Submitted!");
     setFileUrl(null);
     resetInputFields();
+    setSuccessMessage("Form Submitted!");
   };
 
   const resetInputFields = () => {
     if (formRef.current) {
       formRef.current.reset();
+      setCategoryRef(null);
       setValidated(false);
+      setSuccessMessage('')
     }
     /*
       got some error, this resets the 'lose your item' or 'found an item' 
@@ -339,7 +341,10 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
               </Form.Group>
               <Form.Group className="mb-3" controlId="reportForm.category">
                 <Form.Label>Category</Form.Label>
-                <Form.Control type="text" required ref={categoryRef} />
+                <CategoryDropdown
+                  category={categoryRef}
+                  setCategory={setCategoryRef}
+                />
                 <Form.Control.Feedback type="invalid">
                   Please provide a category.
                 </Form.Control.Feedback>
