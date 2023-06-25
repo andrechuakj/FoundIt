@@ -6,6 +6,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import { Container, FormLabel, Alert } from "react-bootstrap";
 import noImage from "../assets/noImage.jpg";
+import CategoryDropdown from "./CategoryDropdown";
 
 import { collection, addDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
@@ -24,7 +25,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const [lostItems, setLostItems] = useState([]);
 
   const itemNameRef = React.useRef(null);
-  const categoryRef = React.useRef(null);
+  const [categoryRef, setCategoryRef] = React.useState(null);
   const colourRef = React.useRef(null);
   const othersRef = React.useRef(null);
   const locationRef = React.useRef(null);
@@ -130,7 +131,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       if (lostOrFound === "lost") {
         const lostItem = {
           itemName: itemNameRef.current.value,
-          category: categoryRef.current.value,
+          category: categoryRef,
           colour: colourRef.current.value,
           others: othersRef.current.value,
           location: locationRef.current.value,
@@ -148,7 +149,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       } else if (lostOrFound === "found") {
         const foundItem = {
           itemName: itemNameRef.current.value,
-          category: categoryRef.current.value,
+          category: categoryRef,
           colour: colourRef.current.value,
           others: othersRef.current.value,
           location: locationRef.current.value,
@@ -244,6 +245,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const resetInputFields = () => {
     if (formRef.current) {
       formRef.current.reset();
+      setCategoryRef(null);
       setValidated(false);
     }
     /*
@@ -339,7 +341,10 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
               </Form.Group>
               <Form.Group className="mb-3" controlId="reportForm.category">
                 <Form.Label>Category</Form.Label>
-                <Form.Control type="text" required ref={categoryRef} />
+                <CategoryDropdown
+                  category={categoryRef}
+                  setCategory={setCategoryRef}
+                />
                 <Form.Control.Feedback type="invalid">
                   Please provide a category.
                 </Form.Control.Feedback>
