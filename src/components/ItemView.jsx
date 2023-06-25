@@ -99,7 +99,7 @@ const ItemView = ({
         lostOrFound={lostOrFound}
         isPersonalView={isPersonalView}
       />
-      <Container>
+      <Container fluid>
         <Row className="g-4">
           {data
             .filter(filterByReturn)
