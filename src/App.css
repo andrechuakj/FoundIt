@@ -21,12 +21,17 @@ body {
 
 .form {
   background-color: white;
-  padding: 60px 80px;
   border-radius: 10px;
+  padding: 60px 80px;
   display: flex;
   flex-direction: column;
   box-shadow: 5px 5px 15px -1px rgba(0,0,0,0.75);
   font-size: 18px;
+  max-height: 96%;
+}
+
+.login-form {
+  padding: 10px 80px 60px 80px;
 }
 
 label {
@@ -70,6 +75,7 @@ input {
 .log-in-sign-up-title {
   align-self: center;
   font-size: 45px;
+  margin: 0;
 }
 
 .reset-password-title {

@@ -72,7 +72,7 @@ export default function LogIn() {
 
   return (
     <div className="form-container">
-      <form onSubmit={handleSubmit} className="form">
+      <form onSubmit={handleSubmit} className="form login-form">
         <img src={logo} />
         <hr />
         <h4 className="log-in-sign-up-title">Log In</h4>

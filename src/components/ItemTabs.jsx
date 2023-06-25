@@ -36,7 +36,7 @@ const ItemTabs = ({ searchKey, categoryFilter }) => {
         justify
         style={{ fontSize: "20px", fontWeight: "bold" }}
       >
-        <Tab eventKey="found" title="Found items">
+        <Tab eventKey="found" title="Found Items">
           <ItemView
             data={foundItems}
             lostOrFound="found"
@@ -45,7 +45,7 @@ const ItemTabs = ({ searchKey, categoryFilter }) => {
             categoryFilter={categoryFilter}
           />
         </Tab>
-        <Tab eventKey="lost" title="Lost items">
+        <Tab eventKey="lost" title="Lost Items">
           <ItemView
             data={lostItems}
             lostOrFound="lost"
