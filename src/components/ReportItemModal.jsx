@@ -19,6 +19,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
   const [validated, setValidated] = useState(false);
   const { user } = useContext(UserContext);
+  const generateUUID = () => crypto.randomUUID();
   const [successMessage, setSuccessMessage] = useState("");
   const [fileUrl, setFileUrl] = useState(null);
   const [lostItems, setLostItems] = useState([]);
@@ -71,7 +72,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     const unsubscribe = onSnapshot(collection(db, "lostItems"), (snapshot) => {
       const items = snapshot.docs.map((doc) => doc.data());
       setLostItems(items);
-      console.log("lostItems: ", items);
+      console.log(items);
     });
 
     // Cleanup the listener when the component unmounts
@@ -185,7 +186,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
             foundItem.itemName.toLowerCase().replace(/\s/g, "")
           );
 
-          return distance <= similarityThreshold && lostItem.returned === false;
+          return distance <= similarityThreshold;
         });
 
         /*
@@ -200,7 +201,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
         And also ofc uncomment this. 
         */
 
-        if (matchedLostItems.length > 0) {
+        if (matchedLostItems.length > 0) {  
           // Found item matches one or more lost items
           matchedLostItems.forEach((lostItem) => {
             console.log(lostItem.ownerEmail);
@@ -236,9 +237,9 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     } catch (error) {
       console.log(error);
     }
+    setSuccessMessage("Form Submitted!");
     setFileUrl(null);
     resetInputFields();
-    setSuccessMessage("Form Submitted!");
   };
 
   const resetInputFields = () => {
@@ -246,7 +247,6 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
       formRef.current.reset();
       setCategoryRef(null);
       setValidated(false);
-      setSuccessMessage('')
     }
     /*
       got some error, this resets the 'lose your item' or 'found an item' 

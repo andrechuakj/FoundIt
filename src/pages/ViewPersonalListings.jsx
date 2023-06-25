@@ -13,7 +13,14 @@ const ViewPersonalListings = () => {
   return (
     <>
       <Row className="justify-content-md-center">
-        <Col lg="8">
+        <Col
+          lg="8"
+          style={{
+            border: "1px solid lightgrey",
+            boxShadow: "0 0 10px black",
+            backgroundColor: "white",
+          }}
+        >
           <div>
             <NavigationBar
               searchKey={searchPersonalKey}

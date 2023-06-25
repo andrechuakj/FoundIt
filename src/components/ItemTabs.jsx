@@ -28,32 +28,34 @@ const ItemTabs = ({ searchKey, categoryFilter }) => {
   }, []);
 
   return (
-    <Tabs
-      defaultActiveKey="found"
-      id="justify-tab-example"
-      className="mb-3"
-      justify
-      style={{ fontSize: "20px", fontWeight: "bold" }}
-    >
-      <Tab eventKey="found" title="Found items">
-        <ItemView
-          data={foundItems}
-          lostOrFound="found"
-          searchKey={searchKey}
-          isPersonalView={false}
-          categoryFilter={categoryFilter}
-        />
-      </Tab>
-      <Tab eventKey="lost" title="Lost items">
-        <ItemView
-          data={lostItems}
-          lostOrFound="lost"
-          searchKey={searchKey}
-          isPersonalView={false}
-          categoryFilter={categoryFilter}
-        />
-      </Tab>
-    </Tabs>
+    <div>
+      <Tabs
+        defaultActiveKey="found"
+        id="justify-tab-example"
+        className="mb-3"
+        justify
+        style={{ fontSize: "20px", fontWeight: "bold" }}
+      >
+        <Tab eventKey="found" title="Found Items">
+          <ItemView
+            data={foundItems}
+            lostOrFound="found"
+            searchKey={searchKey}
+            isPersonalView={false}
+            categoryFilter={categoryFilter}
+          />
+        </Tab>
+        <Tab eventKey="lost" title="Lost Items">
+          <ItemView
+            data={lostItems}
+            lostOrFound="lost"
+            searchKey={searchKey}
+            isPersonalView={false}
+            categoryFilter={categoryFilter}
+          />
+        </Tab>
+      </Tabs>
+    </div>
   );
 };
 

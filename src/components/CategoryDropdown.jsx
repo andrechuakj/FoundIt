@@ -10,7 +10,7 @@ const CategoryDropdown = ({ category, setCategory }) => {
   };
   return (
     <>
-      <Dropdown style={{}}>
+      <Dropdown>
         <Dropdown.Toggle style={dropdownStyle} id="nested-dropdown-toggle">
           {category == null
             ? "Please select category"
@@ -18,16 +18,16 @@ const CategoryDropdown = ({ category, setCategory }) => {
         </Dropdown.Toggle>
         <Dropdown.Menu>
           {categories.map((items) => (
-            <Dropdown drop="end">
-              <Dropdown.Toggle
-                id="nested-dropdown-toggle"
-                style={dropdownStyle}
-              >
+            <Dropdown drop="end" key={items.label}>
+              <Dropdown.Toggle id={items.label} style={dropdownStyle}>
                 {items.label}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {items.items.map((item) => (
-                  <Dropdown.Item onClick={() => setCategory(item.label)}>
+                  <Dropdown.Item
+                    onClick={() => setCategory(item.label)}
+                    key={item.label}
+                  >
                     {item.label}
                   </Dropdown.Item>
                 ))}{" "}
@@ -35,7 +35,7 @@ const CategoryDropdown = ({ category, setCategory }) => {
             </Dropdown>
           ))}
           <Dropdown.Divider />
-          <Dropdown.Item onClick={() => setCategory(null)}>
+          <Dropdown.Item onClick={() => setCategory(null)} key={"none"}>
             Remove filter
           </Dropdown.Item>
         </Dropdown.Menu>
