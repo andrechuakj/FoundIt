@@ -19,9 +19,10 @@ export default function Logout() {
     <div className="form-container">
       <form
         style={{
-          boxShadow: "3px 3px 3px lightgrey",
+          boxShadow: "2px 2px 2px lightgrey",
           padding: "30px",
           borderRadius: "10px",
+          backgroundColor: "white",
         }}
       >
         <h4 className="log-in-sign-up-title">Log out?</h4>
