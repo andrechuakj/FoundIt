@@ -26,6 +26,7 @@ const PersonalItemTabs = ({ searchPersonalKey }) => {
 
     return () => unsubscribe();
   }, []);
+  
   return (
     <Tabs
       defaultActiveKey="found"

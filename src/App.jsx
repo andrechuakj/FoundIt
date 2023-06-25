@@ -7,7 +7,6 @@ import UserProvider from "./contexts/UserProvider";
 import PrivateRoute from "./PrivateRoute";
 import Logout from "./pages/Logout";
 import EditProfile from "./pages/EditProfile";
-import LostFoundItemForm from "./pages/LostFoundItemForm";
 import ViewPersonalListings from "./pages/ViewPersonalListings";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
