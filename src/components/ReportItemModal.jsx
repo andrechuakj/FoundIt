@@ -18,7 +18,6 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
   const [validated, setValidated] = useState(false);
   const { user } = useContext(UserContext);
-  const generateUUID = () => crypto.randomUUID();
   const [successMessage, setSuccessMessage] = useState("");
   const [fileUrl, setFileUrl] = useState(null);
   const [lostItems, setLostItems] = useState([]);
@@ -71,7 +70,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     const unsubscribe = onSnapshot(collection(db, "lostItems"), (snapshot) => {
       const items = snapshot.docs.map((doc) => doc.data());
       setLostItems(items);
-      console.log(items);
+      console.log("lostItems: ", items);
     });
 
     // Cleanup the listener when the component unmounts
@@ -185,7 +184,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
             foundItem.itemName.toLowerCase().replace(/\s/g, "")
           );
 
-          return distance <= similarityThreshold;
+          return distance <= similarityThreshold && lostItem.returned === false;
         });
 
         /*
@@ -236,15 +235,16 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     } catch (error) {
       console.log(error);
     }
-    setSuccessMessage("Form Submitted!");
     setFileUrl(null);
     resetInputFields();
+    setSuccessMessage("Form Submitted!");
   };
 
   const resetInputFields = () => {
     if (formRef.current) {
       formRef.current.reset();
       setValidated(false);
+      setSuccessMessage('')
     }
     /*
       got some error, this resets the 'lose your item' or 'found an item' 

@@ -8,15 +8,21 @@ import UserContext from './UserContext'
 */
 
 const UserProvider = ({ children }) => {
-  const initialUser = JSON.parse(localStorage.getItem('user')) || null;
+  const initialUser = JSON.parse(localStorage.getItem('user'));
   const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    if (storedUser !== "null") {
+      if (['/', '/signup', '/forgot-password'].includes(window.location.pathname)) {
+        navigate('/home-page')
+      }  
       setUser(JSON.parse(storedUser));
       console.log(storedUser)
+    } else {
+      console.log('0')
+      //navigate('/')
     }
   }, []);
 
