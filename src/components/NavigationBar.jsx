@@ -1,16 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import logoOnly from "../assets/LogoOnly.png";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import {
+  Container,
+  Navbar,
+  Button,
+  Form,
+  Nav,
+  NavDropdown,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Stack from "react-bootstrap/Stack";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import messageIcon from "../assets/message icon.png";
 import ReportItemModal from "./ReportItemModal";
 import { UserContext } from "../contexts/UserContext";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
@@ -18,7 +21,28 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
   const [openReportModal, setOpenReportModal] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const { user } = useContext(UserContext);
-  const userName = `Welcome, ${user.name}`;
+  const userID = `${user.id}`;
+  const [userName, setUserName] = React.useState("");
+
+  useEffect(() => {
+    fetchDocument(userID);
+  }, []);
+
+  const fetchDocument = async (docId) => {
+    try {
+      const docRef = doc(db, "users", docId);
+      const documentSnapshot = await getDoc(docRef);
+
+      if (documentSnapshot.exists()) {
+        const documentData = documentSnapshot.data();
+        setUserName(documentData.name);
+      } else {
+        console.log("Document does not exist");
+      }
+    } catch (error) {
+      console.log("Error fetching document:", error);
+    }
+  };
 
   const dropdownStyle = {
     display: "inline-block",
@@ -59,10 +83,6 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
     setShowDeleteButton(value.length > 0);
   };
 
-  const handleDeleteClick = () => {
-    setSearchKey("");
-    setShowDeleteButton(false);
-  };
   return (
     <>
       <Navbar
@@ -88,26 +108,12 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
           </Navbar.Brand>
 
           <Form.Control
+            type="search"
             className="mx-auto"
             placeholder="Search for item or location..."
             value={searchKey}
             onChange={handleInputChange}
           />
-          {showDeleteButton && (
-            <Button
-              className="delete-button"
-              onClick={handleDeleteClick}
-              style={{
-                position: "absolute",
-                right: "341px",
-                top: "50%",
-                transform: "translateY(-50%)",
-              }}
-            >
-              &#x2716;
-            </Button>
-          )}
-
           <div className="vr ms-3" />
           <Navbar.Collapse>
             <Nav style={{ padding: "4px" }}>
@@ -116,7 +122,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseEnter={handleHoverDropdown}
                 onMouseLeave={handleLeaveDropdown}
               >
-                <NavDropdown title={userName}>
+                <NavDropdown title={"Welcome, " + userName}>
                   <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
