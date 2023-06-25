@@ -1,22 +1,19 @@
 import React, { useContext } from "react";
-import { UserContext } from "../contexts/UserContext";
 import NavigationBar from "../components/NavigationBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ItemTabs from "../components/ItemTabs";
+import CategoryDropdown from "../components/CategoryDropdown";
 
 const HomePage = () => {
   const [searchKey, setSearchKey] = React.useState("");
-
-  const { user } = useContext(UserContext);
+  const [category, setCategory] = React.useState(null);
 
   return (
     <>
-      {/* {user ? `${user.contact}, ${user.email}, ${user.name}` : 'no user'} */}
-      <div></div>
       <div>
         <Row className="justify-content-md-center" xxl>
-          <Col lg="8" style={{ boxShadow:"5px 5px 5px lightgrey"}}>
+          <Col lg="8">
             <div>
               <NavigationBar
                 searchKey={searchKey}
@@ -24,7 +21,18 @@ const HomePage = () => {
               />
             </div>
             <hr />
-            <ItemTabs searchKey={searchKey} />
+            <div
+              style={{
+                border: "1px solid grey",
+                padding: "2px",
+                borderRadius: "15px",
+                display:"inline-block",
+                marginBottom:"5px"
+              }}
+            >
+              <CategoryDropdown category={category} setCategory={setCategory} />
+            </div>
+            <ItemTabs searchKey={searchKey} categoryFilter={category}/>
             <br />
           </Col>
         </Row>

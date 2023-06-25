@@ -3,7 +3,13 @@ import { Card, Col, Row, Container } from "react-bootstrap";
 import ItemModal from "./ItemModal";
 import { UserContext } from "../contexts/UserContext";
 
-const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
+const ItemView = ({
+  data,
+  lostOrFound,
+  searchKey,
+  isPersonalView,
+  categoryFilter,
+}) => {
   const [idHovered, setIdHovered] = React.useState(null);
   const [modalShow, setModalShow] = React.useState(false);
   const { user } = useContext(UserContext);
@@ -62,6 +68,14 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
     }
   };
 
+  const filterByCategory = (item) => {
+    if (categoryFilter == null) {
+      return true;
+    } else {
+      return item.category == categoryFilter;
+    }
+  };
+
   const sortByReturned = (x, y) => {
     if (!isPersonalView) {
       return 0;
@@ -90,6 +104,7 @@ const ItemView = ({ data, lostOrFound, searchKey, isPersonalView }) => {
           {data
             .filter(filterByReturn)
             .filter(filterByUser)
+            .filter(filterByCategory)
             .filter(filterBySearch)
             .sort(
               (x, y) => Date.parse(y.dateReported) - Date.parse(x.dateReported)

@@ -140,7 +140,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
               style={messageStyle}
               onMouseEnter={handleHoverMessage}
               onMouseLeave={handleLeaveMessage}
-              href="/main-page"
+              href="/home-page"
             >
               <img
                 src={messageIcon}

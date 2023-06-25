@@ -42,6 +42,7 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleReturned = () => {
     console.log(data.owner);
     onHide();
+    
     //change data.returned to true here
     const documentId = data.id;
     
