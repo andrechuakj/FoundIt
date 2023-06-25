@@ -3,6 +3,10 @@ import { Modal, Button, Image, Container } from "react-bootstrap";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from "../firebase";
+
+
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
     console.log(data.founder);
@@ -21,6 +25,20 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
     await updateDoc(itemReturnedDoc, { returned: true });
     console.log("item updated");
     onHide();
+
+    // change data.returned to true here
+    const documentId = data.id;
+    
+    // Get a reference to the document
+    const itemRef = doc(db, 'foundItems', documentId);
+    updateDoc(itemRef, { returned: true })
+      .then(() => {
+        console.log('data.returned successfully changed to true')
+      })
+      .catch((error) => {
+        console.log('data.returned cannot be changed', error)
+      })
+
   };
 
   const handleClaimed = async () => {
@@ -28,6 +46,20 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
     await updateDoc(itemLostDoc, { returned: true });
     console.log("item updated");
     onHide();
+
+    //change data.returned to true here
+    const documentId = data.id;
+    
+    // Get a reference to the document
+    const itemRef = doc(db, 'lostItems', documentId);
+    updateDoc(itemRef, { returned: true })
+      .then(() => {
+        console.log('data.returned successfully changed to true')
+      })
+      .catch((error) => {
+        console.log('data.returned cannot be changed', error)
+      })
+
   };
 
   return (
