@@ -137,7 +137,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
           dateReported: dateRef.current.value,
           itemPicture: fileUrl ? fileUrl : noImage,
 
-          //id: generateUUID(),
+          id: generateUUID(),
           founder: null,
           owner: `${user.name}`,
           ownerEmail: `${user.email}`,
@@ -155,7 +155,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
           dateReported: dateRef.current.value,
           itemPicture: fileUrl ? fileUrl : noImage,
 
-          //id: generateUUID(),
+          id: generateUUID(),
           founder: `${user.name}`,
           founderEmail: `${user.email}`,
           founderContact: `${user.contact}`,
