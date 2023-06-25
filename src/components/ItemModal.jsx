@@ -1,7 +1,12 @@
 import React from "react";
-import { Modal, Button, Image, Container } from "react-bootstrap";
-import { updateDoc, doc } from "firebase/firestore";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import Image from "react-bootstrap/Image";
+import Container from "react-bootstrap/Container";
+
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from "../firebase";
+
 
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
@@ -16,12 +21,9 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
     onHide();
   };
 
-  const handleReturned = async () => {
-    const itemReturnedDoc = doc(db, "foundItems", data.id);
-    await updateDoc(itemReturnedDoc, { returned: true });
-    console.log("item updated");
+  const handleClaimed = () => {
+    console.log(data.founder);
     onHide();
-
     // change data.returned to true here
     const documentId = data.id;
     
@@ -37,12 +39,10 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
 
   };
 
-  const handleClaimed = async () => {
-    const itemLostDoc = doc(db, "lostItems", data.id);
-    await updateDoc(itemLostDoc, { returned: true });
-    console.log("item updated");
+  const handleReturned = () => {
+    console.log(data.owner);
     onHide();
-
+    
     //change data.returned to true here
     const documentId = data.id;
     
@@ -117,10 +117,10 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
           <Button onClick={handleReturn}>Return</Button>
         )}
         {lostOrFound == "found" && isPersonalView && !data.returned && (
-          <Button onClick={handleReturned}>Returned</Button>
+          <Button onClick={handleClaimed}>Claimed</Button>
         )}
         {lostOrFound == "lost" && isPersonalView && !data.returned && (
-          <Button onClick={handleClaimed}>Claimed</Button>
+          <Button onClick={handleReturned}>Returned</Button>
         )}
       </Modal.Footer>
     </Modal>
