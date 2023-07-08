@@ -201,7 +201,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
         And also ofc uncomment this. 
         */
 
-        if (matchedLostItems.length > 0) {
+        if (matchedLostItems.length > 0) {  
           // Found item matches one or more lost items
           matchedLostItems.forEach((lostItem) => {
             console.log(lostItem.ownerEmail);

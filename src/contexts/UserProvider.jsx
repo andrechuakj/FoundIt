@@ -14,7 +14,10 @@ const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    if (storedUser !== "null") {
+      if (['/', '/signup', '/forgot-password'].includes(window.location.pathname)) {
+        navigate('/home-page')
+      }
       setUser(JSON.parse(storedUser));
       console.log(storedUser)
     }

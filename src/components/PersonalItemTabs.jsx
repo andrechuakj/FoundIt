@@ -26,6 +26,7 @@ const PersonalItemTabs = ({ searchPersonalKey, categoryFilter }) => {
 
     return () => unsubscribe();
   }, []);
+  
   return (
     <Tabs
       defaultActiveKey="found"

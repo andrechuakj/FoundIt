@@ -7,12 +7,14 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
     console.log(data.founder);
     alert("An email has been sent to the finder to return it to you.");
+    // to do after milestone 2
     onHide();
   };
 
   const handleReturn = () => {
     console.log(data.owner);
     alert("An email has been sent to the owner to retrieve it from you.");
+    // to do after milestone 2, actually is this button necessary?..
     onHide();
   };
 
@@ -102,11 +104,6 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
           {lostOrFound === "found"
             ? "Finder email: " + data.founderEmail
             : "Owner email: " + data.ownerEmail}
-        </p>
-        <p>
-          {lostOrFound === "found"
-            ? "Finder contact: " + data.founderContact
-            : "Owner contact: " + data.ownerContact}
         </p>
       </Modal.Body>
       <Modal.Footer>
