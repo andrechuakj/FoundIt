@@ -87,7 +87,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
     <>
       <Navbar
         style={{
-          backgroundColor: "#57e2fa",
+          backgroundColor: "#78deee",
           borderRadius: "0px 0px 10px 10px",
         }}
       >
