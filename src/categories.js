@@ -1,7 +1,15 @@
 const categories = [
   {
     label: "Personal Valuables",
-    items: [{ label: "Bags" }, { label: "Wallets" }, { label: "Cards" }, {label: "Bottles"}],
+    items: [
+      { label: "Bags" },
+      { label: "Wallets" },
+      { label: "Cards" },
+      {label: "Bottles"},
+      {label: "Clothing"},
+      {label: "Keys"},
+      {label: "Accessories"},
+    ],
   },
   {
     label: "Computers & Tech",
