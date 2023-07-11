@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Card, Col, Row, Container } from "react-bootstrap";
 import ItemModal from "./ItemModal";
 import { UserContext } from "../contexts/UserContext";
+import CardSkeleton from "./CardSkeleton";
 
 const ItemView = ({
   data,
@@ -9,8 +10,8 @@ const ItemView = ({
   searchKey,
   isPersonalView,
   categoryFilter,
+  isLoading,
 }) => {
-  const [idHovered, setIdHovered] = React.useState(null);
   const [modalShow, setModalShow] = React.useState(false);
   const { user } = useContext(UserContext);
   const userEmail = `${user.email}`;
@@ -26,13 +27,11 @@ const ItemView = ({
     location: null,
   });
 
-  const handleHover = (id, e) => {
-    setIdHovered(id);
+  const handleHover = (e) => {
     e.currentTarget.style.transform = "scale(1.05)";
   };
 
   const handleMouseLeave = (e) => {
-    setIdHovered(null);
     e.currentTarget.style.transform = "scale(1)";
   };
 
@@ -101,6 +100,10 @@ const ItemView = ({
       />
       <Container fluid>
         <Row className="g-4 d-flex flex-wrap">
+          {isLoading &&
+            new Array(8)
+              .fill(0)
+              .map((item, index) => <CardSkeleton key={index} />)}
           {data
             .filter(filterByReturn)
             .filter(filterByUser)
@@ -119,15 +122,11 @@ const ItemView = ({
                     style={{
                       width: "280px",
                       height: "400px",
-                      position: "relative",
-                      display: "flex",
-                      justify: "center",
-                      align: "center",
                       cursor: "pointer",
                       boxShadow: "2px 2px 2px lightgrey",
                       transition: "transform 0.3s ease",
                     }}
-                    onMouseEnter={(e) => handleHover(item.id, e)}
+                    onMouseEnter={(e) => handleHover(e)}
                     onMouseLeave={handleMouseLeave}
                   >
                     <Card.Img
