@@ -12,11 +12,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 /*
-test
-  By right, all the pages that are not login/signup should be PrivateRoute,
-  if not users can go to eg. /home/logout from the login page by simply
-  typing it in the search bar, but lets settle that another day
+  All the pages that are not login/signup/forgot-password are PrivateRoute
 */
+
 function App() {
   return (
     <Router>
@@ -33,20 +31,37 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/" element={<LogIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/home-page/logout" element={<Logout />} />
-          <Route path="/home-page/edit-profile" element={<EditProfile />} />
+          <Route
+            path="/home-page/logout"
+            element={
+              <PrivateRoute>
+                <Logout />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/home-page/edit-profile"
+            element={
+              <PrivateRoute>
+                <EditProfile />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="/home-page/view-personal-listings"
-            element={<ViewPersonalListings />}
+            element={
+              <PrivateRoute>
+                <ViewPersonalListings />
+              </PrivateRoute>
+            }
           />
-          {/* <Route
-            path="/home-page/LostFoundItemForm"
-            element={<LostFoundItemForm />}
-          /> */}
+
         </Routes>
       </UserProvider>
     </Router>
   );
 }
+
+
 
 export default App;

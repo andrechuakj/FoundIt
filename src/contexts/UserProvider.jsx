@@ -20,6 +20,9 @@ const UserProvider = ({ children }) => {
       }
       setUser(JSON.parse(storedUser));
       console.log(storedUser)
+    } else {
+      navigate('/')
+      console.log(storedUser)
     }
   }, []);
 

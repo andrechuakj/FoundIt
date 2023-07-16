@@ -21,7 +21,9 @@ export default function EditProfile() {
           }}
         >
           <div>
-            <NavigationBar searchKey={fakeKey} setSearchKey={setFakeKey} />
+            <NavigationBar
+              searchKey={fakeKey}
+              setSearchKey={setFakeKey} />
           </div>
           <hr />
           <ProfileBar />
