@@ -10,6 +10,7 @@ import EditProfile from "./pages/EditProfile";
 import ViewPersonalListings from "./pages/ViewPersonalListings";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MessagesPage from "./pages/MessagesPage";
 
 /*
   All the pages that are not login/signup/forgot-password are PrivateRoute
@@ -55,13 +56,18 @@ function App() {
               </PrivateRoute>
             }
           />
-
+          <Route
+            path="/home-page/messages"
+            element={
+              <PrivateRoute>
+                <MessagesPage />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </UserProvider>
     </Router>
   );
 }
-
-
 
 export default App;
