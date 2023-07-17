@@ -4,12 +4,12 @@ import { UserContext } from "../contexts/UserContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-
 const ProfileBar = () => {
   const { user } = useContext(UserContext);
   const userId = `${user.id}`;
   const [profilePic, setProfilePic] = React.useState("");
   const [userName, setUserName] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
     fetchDocument(userId);
@@ -24,6 +24,7 @@ const ProfileBar = () => {
         const documentData = documentSnapshot.data();
         setProfilePic(documentData.profilePic);
         setUserName(documentData.name);
+        setIsLoading(false);
       } else {
         console.log("Document does not exist");
       }
@@ -53,9 +54,20 @@ const ProfileBar = () => {
             textAlign: "center",
           }}
         >
+          {isLoading && (
+            <div
+              style={{
+                border: "3px solid white",
+                height: "120px",
+                width: "120px",
+                borderRadius: "50%",
+                background: "lightgrey",
+              }}
+            ></div>
+          )}
           <Image
             src={profilePic}
-            alt="profile pic"
+            alt=""
             roundedCircle
             style={{
               border: "3px solid white",
