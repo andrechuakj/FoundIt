@@ -2,8 +2,11 @@ import React from "react";
 import NavigationBar from "../components/NavigationBar";
 import { Row, Col } from "react-bootstrap";
 import MapDisplayAll from "../components/Maps/MapDisplayAll";
+import MapCategoryToggle from "../components/Maps/MapCategoryToggle";
 
 const ViewMap = () => {
+  const [mapCategory, setMapCategory] = React.useState("all");
+
   return (
     <>
       <Row
@@ -21,7 +24,15 @@ const ViewMap = () => {
         >
           <NavigationBar />
           <hr />
-          <MapDisplayAll />
+          <div
+            style={{
+              display: "inline-block",
+              marginBottom: "5px",
+            }}
+          >
+            <MapCategoryToggle setMapCategory={setMapCategory} />
+          </div>
+          <MapDisplayAll mapCategory={mapCategory} />
         </Col>
       </Row>
     </>

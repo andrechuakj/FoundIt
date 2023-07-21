@@ -277,6 +277,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     setValidated(false);
     setSuccessMessage("");
     setFileUrl(null);
+    setSelectedLocation(null);
   };
 
   const handleDateChange = (event) => {
