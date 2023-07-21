@@ -126,6 +126,9 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                   <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
+                  <NavDropdown.Item href="/home-page/view-map">
+                    View map
+                  </NavDropdown.Item>
                   <NavDropdown.Item href="/home-page/edit-profile">
                     Edit profile
                   </NavDropdown.Item>

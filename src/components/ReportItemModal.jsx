@@ -7,7 +7,9 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import { Container, FormLabel, Alert } from "react-bootstrap";
 import noImage from "../assets/noImage.jpg";
 import CategoryDropdown from "./CategoryDropdown";
+import MapPicker from "./Maps/MapPicker";
 
+import { GeoPoint } from "firebase/firestore";
 import { collection, addDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -23,6 +25,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const [successMessage, setSuccessMessage] = useState("");
   const [fileUrl, setFileUrl] = useState(null);
   const [lostItems, setLostItems] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const itemNameRef = React.useRef(null);
   const [categoryRef, setCategoryRef] = React.useState(null);
@@ -137,7 +140,12 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
           location: locationRef.current.value,
           dateReported: dateRef.current.value,
           itemPicture: fileUrl ? fileUrl : noImage,
-
+          coordinates: selectedLocation
+            ? new GeoPoint(
+                selectedLocation.latitude,
+                selectedLocation.longitude
+              )
+            : null,
           id: generateUUID(),
           founder: null,
           owner: `${user.name}`,
@@ -155,7 +163,12 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
           location: locationRef.current.value,
           dateReported: dateRef.current.value,
           itemPicture: fileUrl ? fileUrl : noImage,
-
+          coordinates: selectedLocation
+            ? new GeoPoint(
+                selectedLocation.latitude,
+                selectedLocation.longitude
+              )
+            : null,
           id: generateUUID(),
           founder: `${user.name}`,
           founderEmail: `${user.email}`,
@@ -201,7 +214,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
         And also ofc uncomment this. 
         */
 
-        if (matchedLostItems.length > 0) {  
+        if (matchedLostItems.length > 0) {
           // Found item matches one or more lost items
           matchedLostItems.forEach((lostItem) => {
             console.log(lostItem.ownerEmail);
@@ -365,6 +378,10 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
                   Please provide item location.
                 </Form.Control.Feedback>
               </Form.Group>
+              <MapPicker
+                selectedLocation={selectedLocation}
+                setSelectedLocation={setSelectedLocation}
+              />
               <Form.Group className="mb-3" controlId="reportForm.others">
                 <Form.Label>Other description</Form.Label>
                 <Form.Control as="textarea" rows={3} ref={othersRef} />

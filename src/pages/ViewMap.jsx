@@ -1,12 +1,16 @@
 import React from "react";
-import MessageContainer from "../components/MessagePage/MessageContainer";
-import { Row, Col } from "react-bootstrap";
 import NavigationBar from "../components/NavigationBar";
+import { Row, Col } from "react-bootstrap";
+import MapDisplayAll from "../components/Maps/MapDisplayAll";
 
-const MessagesPage = () => {
+const ViewMap = () => {
   return (
     <>
-      <Row className="justify-content-md-center">
+      <Row
+        className="justify-content-md-center"
+        xxl
+        style={{ height: "100vh", width: "100vw" }}
+      >
         <Col
           lg="8"
           style={{
@@ -17,11 +21,11 @@ const MessagesPage = () => {
         >
           <NavigationBar />
           <hr />
-          <MessageContainer />
+          <MapDisplayAll />
         </Col>
       </Row>
     </>
   );
 };
 
-export default MessagesPage;
+export default ViewMap;
