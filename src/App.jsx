@@ -23,18 +23,18 @@ function App() {
       <UserProvider>
         <Routes>
           <Route
-            path="/home-page"
+            path="/"
             element={
               <PrivateRoute>
                 <HomePage />
               </PrivateRoute>
             }
           />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<LogIn />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<LogIn />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route
-            path="/home-page/logout"
+            path="/logout"
             element={
               <PrivateRoute>
                 <Logout />
@@ -42,7 +42,7 @@ function App() {
             }
           />
           <Route
-            path="/home-page/edit-profile"
+            path="/edit-profile"
             element={
               <PrivateRoute>
                 <EditProfile />
@@ -50,7 +50,7 @@ function App() {
             }
           />
           <Route
-            path="/home-page/view-personal-listings"
+            path="/view-personal-listings"
             element={
               <PrivateRoute>
                 <ViewPersonalListings />
@@ -58,7 +58,7 @@ function App() {
             }
           />
           <Route
-            path="/home-page/messages"
+            path="/messages"
             element={
               <PrivateRoute>
                 <MessagesPage />
@@ -66,7 +66,7 @@ function App() {
             }
           />
           <Route
-            path="/home-page/view-map"
+            path="/view-map"
             element={
               <PrivateRoute>
                 <ViewMap />

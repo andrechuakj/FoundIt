@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import Message from "./Message";
-import profilePic from "../../assets/profile pic.jpeg";
 import attachFile from "../../assets/attachFile.png";
 import send from "../../assets/send.png";
+import { UserContext } from "../../contexts/UserContext";
 
 const Messages = () => {
+  const { user } = useContext(UserContext);
+  const userPic = `${user.profilePic}`;
+
   return (
     <>
       <div
@@ -23,7 +26,7 @@ const Messages = () => {
           }}
         >
           <img
-            src={profilePic}
+            src={userPic}
             alt="Profile pic"
             style={{
               margin: "10px",

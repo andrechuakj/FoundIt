@@ -6,7 +6,7 @@ export default function PrivateRoute({ children }) {
   const { user } = useContext(UserContext);
   //const user = localStorage.getItem('user')
 
-  return user ? children : <Navigate to="/" />;
+  return user ? children : <Navigate to="/login" />;
 }
 
 // export default function PrivateRoute({ children }) {
