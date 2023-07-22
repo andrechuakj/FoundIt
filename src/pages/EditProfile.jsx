@@ -11,7 +11,11 @@ export default function EditProfile() {
 
   return (
     <>
-      <Row className="justify-content-md-center">
+      <Row
+        className="justify-content-md-center"
+        xxl
+        style={{ height: "100vh", width: "100vw" }}
+      >
         <Col
           lg="8"
           style={{
@@ -21,9 +25,7 @@ export default function EditProfile() {
           }}
         >
           <div>
-            <NavigationBar
-              searchKey={fakeKey}
-              setSearchKey={setFakeKey} />
+            <NavigationBar searchKey={fakeKey} setSearchKey={setFakeKey} />
           </div>
           <hr />
           <ProfileBar />

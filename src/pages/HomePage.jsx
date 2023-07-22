@@ -14,7 +14,7 @@ const HomePage = () => {
       <Row
         className="justify-content-md-center"
         xxl
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", width: "100vw" }}
       >
         <Col
           lg="8"
@@ -24,9 +24,7 @@ const HomePage = () => {
             backgroundColor: "white",
           }}
         >
-          <div style={{}}>
-            <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
-          </div>
+          <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
           <hr />
           <div
             style={{
@@ -41,7 +39,6 @@ const HomePage = () => {
             <CategoryDropdown category={category} setCategory={setCategory} />
           </div>
           <ItemTabs searchKey={searchKey} categoryFilter={category} />
-          <br />
         </Col>
       </Row>
     </>

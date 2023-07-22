@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Button, Image, Container } from "react-bootstrap";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import MapDisplayOne from "./Maps/MapDisplayOne";
 
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
@@ -26,17 +27,16 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
 
     // change data.returned to true here
     const documentId = data.id;
-    
+
     // Get a reference to the document
-    const itemRef = doc(db, 'foundItems', documentId);
+    const itemRef = doc(db, "foundItems", documentId);
     updateDoc(itemRef, { returned: true })
       .then(() => {
-        console.log('data.returned successfully changed to true')
+        console.log("data.returned successfully changed to true");
       })
       .catch((error) => {
-        console.log('data.returned cannot be changed', error)
-      })
-
+        console.log("data.returned cannot be changed", error);
+      });
   };
 
   const handleClaimed = async () => {
@@ -47,17 +47,16 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
 
     //change data.returned to true here
     const documentId = data.id;
-    
+
     // Get a reference to the document
-    const itemRef = doc(db, 'lostItems', documentId);
+    const itemRef = doc(db, "lostItems", documentId);
     updateDoc(itemRef, { returned: true })
       .then(() => {
-        console.log('data.returned successfully changed to true')
+        console.log("data.returned successfully changed to true");
       })
       .catch((error) => {
-        console.log('data.returned cannot be changed', error)
-      })
-
+        console.log("data.returned cannot be changed", error);
+      });
   };
 
   return (
@@ -105,6 +104,10 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
             ? "Finder email: " + data.founderEmail
             : "Owner email: " + data.ownerEmail}
         </p>
+
+        {data.coordinates?.latitude && data.coordinates?.longitude && (
+          <MapDisplayOne coords={data.coordinates} />
+        )}
       </Modal.Body>
       <Modal.Footer>
         {lostOrFound == "found" && !isPersonalView && (

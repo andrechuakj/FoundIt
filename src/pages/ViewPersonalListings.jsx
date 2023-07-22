@@ -12,7 +12,11 @@ const ViewPersonalListings = () => {
 
   return (
     <>
-      <Row className="justify-content-md-center">
+      <Row
+        className="justify-content-md-center"
+        xxl
+        style={{ height: "100vh", width: "100vw" }}
+      >
         <Col
           lg="8"
           style={{

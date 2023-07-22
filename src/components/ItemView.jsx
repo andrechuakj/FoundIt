@@ -38,6 +38,7 @@ const ItemView = ({
   const handleClick = (item) => {
     setItemToShow(item);
     setModalShow(true);
+    console.log(item);
   };
 
   const filterBySearch = (item) => {
