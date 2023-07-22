@@ -92,7 +92,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
         }}
       >
         <Container fluid style={{ position: "relative" }}>
-          <Navbar.Brand href="/home-page">
+          <Navbar.Brand href="/">
             <img
               alt=""
               src={logoOnly}
@@ -101,7 +101,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
               className="d-inline-block align-top"
             />
           </Navbar.Brand>
-          <Navbar.Brand href="/home-page">
+          <Navbar.Brand href="/">
             <Navbar.Text style={{ fontSize: 33, fontWeight: "bold" }}>
               FoundIt
             </Navbar.Text>
@@ -123,19 +123,15 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                 onMouseLeave={handleLeaveDropdown}
               >
                 <NavDropdown title={"Welcome, " + userName}>
-                  <NavDropdown.Item href="/home-page/view-personal-listings">
+                  <NavDropdown.Item href="/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="/home-page/view-map">
-                    View map
-                  </NavDropdown.Item>
-                  <NavDropdown.Item href="/home-page/edit-profile">
+                  <NavDropdown.Item href="/view-map">View map</NavDropdown.Item>
+                  <NavDropdown.Item href="/edit-profile">
                     Edit profile
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="/home-page/logout">
-                    Logout
-                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                 </NavDropdown>
               </div>
             </Nav>
@@ -143,7 +139,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
               style={messageStyle}
               onMouseEnter={handleHoverMessage}
               onMouseLeave={handleLeaveMessage}
-              href="/home-page/messages"
+              href="/messages"
             >
               <img
                 src={messageIcon}

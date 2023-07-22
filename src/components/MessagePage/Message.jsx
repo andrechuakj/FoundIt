@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import profilePic from "../../assets/profile pic.jpeg";
+import { UserContext } from "../../contexts/UserContext";
 
 const Message = ({ ownMessage }) => {
+  const { user } = useContext(UserContext);
+  const userPic = `${user.profilePic}`;
+
   const ownMessageContainerStyle = {
     margin: "10px",
     display: "flex",
@@ -37,7 +41,7 @@ const Message = ({ ownMessage }) => {
       style={ownMessage ? ownMessageContainerStyle : otherMessageContainerStyle}
     >
       <img
-        src={profilePic}
+        src={ownMessage ? userPic : profilePic}
         alt="Profile Pic"
         style={{
           height: "50px",

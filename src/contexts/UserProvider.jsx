@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import UserContext from './UserContext'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import UserContext from "./UserContext";
 
 /*
   This component will store the user information and make it accessible to
@@ -8,38 +8,40 @@ import UserContext from './UserContext'
 */
 
 const UserProvider = ({ children }) => {
-  const initialUser = JSON.parse(localStorage.getItem('user')) || null;
+  const initialUser = JSON.parse(localStorage.getItem("user")) || null;
   const [user, setUser] = useState(initialUser);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem("user");
     if (storedUser !== "null") {
-      if (['/', '/signup', '/forgot-password'].includes(window.location.pathname)) {
-        navigate('/home-page')
+      if (
+        ["/", "/signup", "/forgot-password"].includes(window.location.pathname)
+      ) {
+        navigate("/");
       }
       setUser(JSON.parse(storedUser));
-      console.log(storedUser)
+      console.log(storedUser);
     } else {
-      navigate('/')
-      console.log(storedUser)
+      navigate("/login");
+      console.log(storedUser);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
   }, [user]);
 
   const login = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem("user", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('user');
-    navigate('/')
-    alert('you have successfully logged out')
+    localStorage.removeItem("user");
+    navigate("/login");
+    alert("you have successfully logged out");
   };
 
   return (

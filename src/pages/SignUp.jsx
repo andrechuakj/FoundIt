@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getFirestore } from "firebase/firestore";
 import { Alert } from "react-bootstrap";
 import noProfilePic from "../assets/profile pic.jpeg";
 
@@ -47,6 +47,7 @@ export default function SignUp() {
         id: user.uid,
         profilePic: noProfilePic,
       });
+      await setDoc(doc(getFirestore(), "userChats", user.uid), {})
       resetInputFields();
       setSuccessMessage("Sign up successful!");
       console.log("User signed up successfully.");

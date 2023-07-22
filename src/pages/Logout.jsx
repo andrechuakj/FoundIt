@@ -12,7 +12,7 @@ export default function Logout() {
   };
 
   const handleCancel = () => {
-    navigate("/home-page");
+    navigate("/");
   };
 
   return (
