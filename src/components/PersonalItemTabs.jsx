@@ -3,30 +3,43 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import ItemView from "./ItemView";
 import { db } from "../firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const PersonalItemTabs = ({ searchPersonalKey, categoryFilter }) => {
   const [personalLostItems, setPersonalLostItems] = useState([]);
   const [personalFoundItems, setPersonalFoundItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "lostItems"), (snapshot) => {
-      const items = snapshot.docs.map((doc) => doc.data());
-      setPersonalLostItems(items);
-    });
-
-    return () => unsubscribe();
+    const fetchData = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "lostItems"));
+        const items = snapshot.docs.map((doc) => doc.data());
+        setPersonalLostItems(items);
+        setIsLoading(false);
+      } catch (error) {
+        // Handle any potential errors
+        console.error("Error fetching data from Firebase: ", error);
+      }
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "foundItems"), (snapshot) => {
-      const items = snapshot.docs.map((doc) => doc.data());
-      setPersonalFoundItems(items);
-    });
-
-    return () => unsubscribe();
+    const fetchData = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "foundItems"));
+        const items = snapshot.docs.map((doc) => doc.data());
+        setPersonalFoundItems(items);
+        setIsLoading(false);
+      } catch (error) {
+        // Handle any potential errors
+        console.error("Error fetching data from Firebase: ", error);
+      }
+    };
+    fetchData();
   }, []);
-  
+
   return (
     <Tabs
       defaultActiveKey="found"
@@ -42,6 +55,7 @@ const PersonalItemTabs = ({ searchPersonalKey, categoryFilter }) => {
           searchKey={searchPersonalKey}
           isPersonalView={true}
           categoryFilter={categoryFilter}
+          isLoading={isLoading}
         />
       </Tab>
       <Tab eventKey="lost" title="Things I lost">
@@ -51,6 +65,7 @@ const PersonalItemTabs = ({ searchPersonalKey, categoryFilter }) => {
           searchKey={searchPersonalKey}
           isPersonalView={true}
           categoryFilter={categoryFilter}
+          isLoading={isLoading}
         />
       </Tab>
     </Tabs>

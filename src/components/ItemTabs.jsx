@@ -3,7 +3,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import ItemView from "./ItemView";
 import { db } from "../firebase";
-import { collection, onSnapshot, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const ItemTabs = ({ searchKey, categoryFilter }) => {
   const [lostItems, setLostItems] = useState([]);
@@ -23,7 +23,6 @@ const ItemTabs = ({ searchKey, categoryFilter }) => {
       }
     };
     fetchData();
-  
   }, []);
 
   useEffect(() => {
@@ -39,7 +38,6 @@ const ItemTabs = ({ searchKey, categoryFilter }) => {
       }
     };
     fetchData();
-  
   }, []);
 
   return (

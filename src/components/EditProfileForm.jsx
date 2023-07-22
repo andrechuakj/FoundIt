@@ -31,6 +31,7 @@ const EditProfileForm = () => {
   const userID = `${user.id}`;
   const [profilePic, setProfilePic] = React.useState("");
   const [userName, setUserName] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchDocument = async (docId) => {
     try {
@@ -41,6 +42,7 @@ const EditProfileForm = () => {
         const documentData = documentSnapshot.data();
         setProfilePic(documentData.profilePic);
         setUserName(documentData.name);
+        setIsLoading(false);
       } else {
         console.log("Document does not exist");
       }
@@ -206,9 +208,20 @@ const EditProfileForm = () => {
                 <Row>
                   <Col sm={3}>
                     <Container>
+                      {isLoading && (
+                        <div
+                          style={{
+                            border: "3px solid white",
+                            height: "150px",
+                            width: "150px",
+                            borderRadius: "50%",
+                            background: "lightgrey",
+                          }}
+                        ></div>
+                      )}
                       <Image
                         src={picSelected ? selectedImage : profilePic}
-                        alt="profile pic"
+                        alt=""
                         roundedCircle
                         style={{
                           border: "3px solid white",

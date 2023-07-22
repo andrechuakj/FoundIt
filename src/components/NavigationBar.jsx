@@ -126,6 +126,9 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
                   <NavDropdown.Item href="/home-page/view-personal-listings">
                     View listings
                   </NavDropdown.Item>
+                  <NavDropdown.Item href="/home-page/view-map">
+                    View map
+                  </NavDropdown.Item>
                   <NavDropdown.Item href="/home-page/edit-profile">
                     Edit profile
                   </NavDropdown.Item>
@@ -140,7 +143,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
               style={messageStyle}
               onMouseEnter={handleHoverMessage}
               onMouseLeave={handleLeaveMessage}
-              href="/home-page"
+              href="/home-page/messages"
             >
               <img
                 src={messageIcon}
