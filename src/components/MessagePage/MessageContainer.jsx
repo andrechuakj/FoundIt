@@ -8,14 +8,14 @@ const MessageContainer = () => {
       <div style={{ display: "flex" }}>
         <div
           style={{
-            flex: "3",
+            width: "30%",
             borderRight: "1px solid lightgrey",
             height: "calc(100vh - 120px)",
           }}
         >
           <Sidebar />
         </div>
-        <div style={{ flex: "7"}}>
+        <div style={{ width: "70%",}}>
           <Messages />
         </div>
       </div>

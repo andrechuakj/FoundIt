@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import profilePic from "../../assets/profile pic.jpeg";
+import { ChatContext } from "../../contexts/ChatContext";
 
-const SidebarProfile = () => {
+const SidebarProfile = ({ data }) => {
   const [hover, setHover] = useState(false);
+  const { dispatch } = useContext(ChatContext);
   const divStyle = {
     borderBottom: "1px solid lightgrey",
     height: "70px",
@@ -13,6 +15,12 @@ const SidebarProfile = () => {
     borderRadius: "5px",
     padding: "5px",
     display: "flex",
+    justifyContent: "space-between",
+    overflow: "hidden",
+  };
+
+  const handleSelect = (userInfo) => {
+    dispatch({ type: "CHANGE_USER", payload: userInfo });
   };
 
   return (
@@ -20,9 +28,12 @@ const SidebarProfile = () => {
       style={divStyle}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={() => handleSelect(data[1].userInfo)}
     >
       <img
-        src={profilePic}
+        src={
+          data[1].userInfo?.profilePic ? data[1].userInfo.profilePic : profilePic
+        }
         alt="Profile picture"
         style={{
           height: "50px",
@@ -30,7 +41,6 @@ const SidebarProfile = () => {
           borderRadius: "50%",
           objectFit: "cover",
           marginTop: "5px",
-          flex: "1",
         }}
       />
       <div
@@ -42,11 +52,16 @@ const SidebarProfile = () => {
           flex: "8",
         }}
       >
-        <p style={{ fontSize: "16px", margin: "5px" }}>Name</p>
+        <p style={{ fontSize: "16px", margin: "5px", fontWeight: "bold" }}>
+          {data[1].userInfo?.name}
+        </p>
         <p
-          style={{ marginBottom: "5px", marginLeft: "5px", overflow: "hidden" }}
+          style={{
+            marginBottom: "5px",
+            marginLeft: "5px",
+          }}
         >
-          Last message
+          {data[1].lastMessage?.text}
         </p>
       </div>
     </div>

@@ -16,7 +16,9 @@ const UserProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     if (storedUser !== "null") {
       if (
-        ["/", "/signup", "/forgot-password"].includes(window.location.pathname)
+        ["/login", "/signup", "/forgot-password"].includes(
+          window.location.pathname
+        )
       ) {
         navigate("/");
       }

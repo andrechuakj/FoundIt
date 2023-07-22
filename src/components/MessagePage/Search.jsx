@@ -12,12 +12,17 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import UserContext from "../../contexts/UserContext";
+import { ChatContext } from "../../contexts/ChatContext";
 
 const Search = () => {
   const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
+  const [searchedUser, setSearchedUser] = useState([]);
   const [err, setErr] = useState(false);
   const [hover, setHover] = useState(false);
+  const { user } = useContext(UserContext);
+  const { dispatch } = useContext(ChatContext);
+  const { data } = useContext(ChatContext);
+
   const divStyle = {
     borderBottom: "1px solid grey",
     height: "70px",
@@ -28,6 +33,9 @@ const Search = () => {
     borderRadius: "5px",
     padding: "5px",
     display: "flex",
+    transform: "scaleY(1)",
+    transformOrigin: "top",
+    transition: "transform 1s ease",
   };
 
   const handleSearch = async (e) => {
@@ -35,28 +43,60 @@ const Search = () => {
   };
 
   const handleSelectedUser = async () => {
-    
-  }
+    const combinedId =
+      user.id > searchedUser.id
+        ? user.id + searchedUser.id
+        : searchedUser.id + user.id;
+    try {
+      const res = await getDoc(doc(db, "chats", combinedId));
+      if (!res.exists()) {
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+
+        await updateDoc(doc(db, "userChats", user.id), {
+          [combinedId + ".userInfo"]: {
+            id: searchedUser.id,
+            name: searchedUser.name,
+            profilePic: searchedUser.profilePic,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+
+        await updateDoc(doc(db, "userChats", searchedUser.id), {
+          [combinedId + ".userInfo"]: {
+            id: user.id,
+            name: user.name,
+            profilePic: user.profilePic,
+          },
+          [combinedId + ".date"]: serverTimestamp(),
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    dispatch({ type: "CHANGE_USER", payload: searchedUser });
+    setUsername("");
+    setSearchedUser(null);
+  };
 
   useEffect(() => {
     const getUser = async () => {
       if (username === "") {
-        setUser(null);
+        setSearchedUser(null);
         setErr(false);
       } else {
         const q = query(collection(db, "users"), where("name", "==", username));
 
         try {
           const querySnapshot = await getDocs(q);
-          console.log(querySnapshot);
           if (querySnapshot.empty) {
             setErr(true);
-            setUser(null);
+            setSearchedUser(null);
           } else {
             setErr(false);
           }
           querySnapshot.forEach((doc) => {
-            setUser(doc.data());
+            setSearchedUser(doc.data());
           });
         } catch (err) {
           setErr(true);
@@ -73,19 +113,27 @@ const Search = () => {
         placeholder="Find a user"
         onChange={(e) => handleSearch(e)}
         value={username}
-        style={{ width: "100%", border: "none", borderRadius: "0px", borderBottom: "1px solid grey", padding: "5px", outline: "none" }}
+        style={{
+          width: "100%",
+          border: "none",
+          borderRadius: "0px",
+          borderBottom: "1px solid grey",
+          padding: "5px",
+          outline: "none",
+        }}
       />
       {err && <span>User not found!</span>}
-      {user && (
+      {searchedUser && (
         <>
           <div
             style={divStyle}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             onClick={handleSelectedUser}
+            key={searchedUser.id}
           >
             <img
-              src={user.profilePic}
+              src={searchedUser.profilePic}
               alt="Profile picture"
               style={{
                 height: "50px",
@@ -104,16 +152,12 @@ const Search = () => {
                 flex: "8",
               }}
             >
-              <p style={{ fontSize: "16px", margin: "5px" }}>{user.name}</p>
               <p
-                style={{
-                  marginBottom: "5px",
-                  marginLeft: "5px",
-                  overflow: "hidden",
-                }}
+                style={{ fontSize: "16px", margin: "5px", fontWeight: "bold" }}
               >
-                Last message
+                {searchedUser.name}
               </p>
+
             </div>
           </div>
         </>

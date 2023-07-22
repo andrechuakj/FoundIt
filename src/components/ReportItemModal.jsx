@@ -75,7 +75,6 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     const unsubscribe = onSnapshot(collection(db, "lostItems"), (snapshot) => {
       const items = snapshot.docs.map((doc) => doc.data());
       setLostItems(items);
-      console.log(items);
     });
 
     // Cleanup the listener when the component unmounts
