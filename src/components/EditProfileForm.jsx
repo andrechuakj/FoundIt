@@ -91,7 +91,6 @@ const EditProfileForm = () => {
 
   //For displaying new profile pic after upload
   const handleFileChange = (event) => {
-    console.log(userID);
     handleFileUpload(event);
     setPicSelected(true);
     //for displaying selected image
@@ -107,7 +106,6 @@ const EditProfileForm = () => {
   const handlePicSubmit = async (event) => {
     event.preventDefault();
     const userDoc = doc(db, "users", userID);
-    console.log(userDoc);
     await updateDoc(userDoc, { profilePic: fileUrl });
     setUploadedPhoto(true);
   };

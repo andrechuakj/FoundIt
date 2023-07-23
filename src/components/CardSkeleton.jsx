@@ -26,7 +26,7 @@ const CardSkeleton = () => {
             <Placeholder as={Card.Title} animation="glow">
               <Placeholder xs={8} />
             </Placeholder>
-            <Placeholder as={Card.Text} animation="glow">
+            <Placeholder animation="glow">
               <div>
                 <Placeholder xs={6} />
               </div>{" "}

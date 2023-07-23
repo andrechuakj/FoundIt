@@ -6,7 +6,6 @@ import MapDisplayOne from "./Maps/MapDisplayOne";
 
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
   const handleClaim = () => {
-    console.log(data.founder);
     alert("An email has been sent to the finder to return it to you.");
     // to do after milestone 2
     onHide();
