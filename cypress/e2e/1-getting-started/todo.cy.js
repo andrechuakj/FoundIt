@@ -39,7 +39,9 @@ describe('flow', () => {
     cy.findByRole('textbox', { name: /location lost/i }).type('NTU')
     cy.findByRole('textbox', { name: /other description/i }).type('NIL')
 
+    cy.findByRole('region', { name: /map/i }).click('topRight')
     cy.get('[id^=formFile]').click()
+
     /*
     // not really sure how to upload picture
     cy.fixture('example.png').then((fileContent) => {
@@ -53,16 +55,16 @@ describe('flow', () => {
     */
 
     //submit form
-    cy.findByRole('button', {  name: /submit/i}).click()
+    cy.findByRole('button', { name: /submit/i }).click()
 
     // click on exit
-    cy.findByRole('button', {  name: /close/i}).click()
-    
+    cy.findByRole('button', { name: /close/i }).click()
+
     // click on FoundIt icon to go to home page
     cy.contains('span', 'FoundIt').click();
 
     // click on 'Lost Items'
-    cy.findByRole('tab', {  name: /lost items/i}).click()
+    cy.findByRole('tab', { name: /lost items/i }).click()
 
     // search for item using filter function(should be there)
     cy.findByRole('searchbox').type('cypress')
@@ -71,6 +73,7 @@ describe('flow', () => {
 
     // not sure if able to check for automated email
     // chat feature (WIP)
-    // geomap feature (WIP)
   })
 })
+
+
