@@ -19,8 +19,8 @@ const Search = () => {
   const [err, setErr] = useState(false);
   const [hover, setHover] = useState(false);
   const { user } = useContext(UserContext);
-  const { dispatch, data, search } = useContext(ChatContext);
-  const [username, setUsername] = useState(search ? search : "");
+  const { dispatch } = useContext(ChatContext);
+  const [username, setUsername] = useState("");
 
   const divStyle = {
     borderBottom: "1px solid grey",

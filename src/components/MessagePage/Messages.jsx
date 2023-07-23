@@ -91,106 +91,109 @@ const Messages = () => {
   };
 
   return (
-    data.chatId != "null" && (<>
-      <div
-        style={{
-          height: "calc(100vh - 120px)",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+    data.chatId != "null" && (
+      <>
         <div
           style={{
-            height: "70px",
-            backgroundColor: "#9febff",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <img
-            src={data.user?.profilePic}
-            alt="Profile pic"
-            style={{
-              margin: "10px",
-              borderRadius: "50%",
-              height: "50px",
-              width: "50px",
-            }}
-          />
-          <p style={{ margin: "10px", font1ze: "18px", fontWeight: "bold" }}>
-            {data.user?.name}
-          </p>
-        </div>
-
-        <div
-          style={{
-            height: "100%",
-            overflow: "scroll",
+            height: "calc(100vh - 120px)",
             display: "flex",
             flexDirection: "column",
           }}
         >
-          {messages.map((message) => (
-            <Message key={message.id} message={message} />
-          ))}
-        </div>
-        <div
-          style={{
-            height: "70px",
-            display: "flex",
-            alignItems: "center",
-            borderTop: "1px solid lightgrey",
-          }}
-        >
-          <input
-            onChange={(e) => setImg(e.target.files[0])}
-            type="file"
-            style={{ display: "none" }}
-            id="file"
-          />
-          <label htmlFor="file">
-            <img
-              src={attachFile}
-              alt=""
-              style={{
-                margin: "10px",
-                height: "30px",
-                width: "30px",
-                cursor: "pointer",
-              }}
-            />
-          </label>
-          <input
-            placeholder="Write a message..."
+          <div
             style={{
-              border: "none",
-              width: "100%",
-              borderRadius: "0px",
+              height: "70px",
+              backgroundColor: "#9febff",
+              display: "flex",
+              alignItems: "center",
             }}
-            onChange={(e) => setText(e.target.value)}
-            value={text}
-            onKeyDown={handleKeyDown}
-          />
-          <button
-            onClick={handleSend}
-            style={{ border: "none", backgroundColor: "white" }}
           >
             <img
-              src={send}
-              alt="Send message"
+              src={data.user?.profilePic}
+              alt="Profile pic"
               style={{
                 margin: "10px",
-                height: "30px",
-                width: "30px",
-                cursor: "pointer",
-                border: "none",
-                objectFit: "cover",
+                borderRadius: "50%",
+                height: "50px",
+                width: "50px",
               }}
             />
-          </button>
+            <p style={{ margin: "10px", font1ze: "18px", fontWeight: "bold" }}>
+              {data.user?.name}
+            </p>
+          </div>
+
+          <div
+            style={{
+              height: "100%",
+              overflow: "scroll",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            {messages.map((message) => (
+              <Message key={message.id} message={message} />
+            ))}
+          </div>
+          <div
+            style={{
+              height: "70px",
+              display: "flex",
+              alignItems: "center",
+              borderTop: "1px solid lightgrey",
+            }}
+          >
+            <input
+              onChange={(e) => setImg(e.target.files[0])}
+              type="file"
+              style={{ display: "none" }}
+              id="file"
+            />
+            <label htmlFor="file">
+              <img
+                src={attachFile}
+                alt=""
+                style={{
+                  margin: "10px",
+                  height: "30px",
+                  width: "30px",
+                  cursor: "pointer",
+                }}
+              />
+            </label>
+            <input
+              placeholder="Write a message..."
+              style={{
+                border: "none",
+                width: "100%",
+                borderRadius: "0px",
+                outline: "none",
+              }}
+              onChange={(e) => setText(e.target.value)}
+              value={text}
+              onKeyDown={handleKeyDown}
+            />
+            <button
+              onClick={handleSend}
+              style={{ border: "none", backgroundColor: "white" }}
+            >
+              <img
+                src={send}
+                alt="Send message"
+                style={{
+                  margin: "10px",
+                  height: "30px",
+                  width: "30px",
+                  cursor: "pointer",
+                  border: "none",
+                  objectFit: "cover",
+                }}
+              />
+            </button>
+          </div>
         </div>
-      </div>
-    </>)
+      </>
+    )
   );
 };
 
