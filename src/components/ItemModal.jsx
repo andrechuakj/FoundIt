@@ -181,12 +181,17 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
             : "Location lost: " + data.location}
         </p>
         <p>{"Colour: " + data.colour}</p>
-        <p>{"Date Reported: " + new Date(data.dateReported).toDateString()}</p>
+        <p>
+          {lostOrFound === "found"
+            ? "Finder name: " + data.founder
+            : "Owner name: " + data.owner}
+        </p>
         <p>
           {lostOrFound === "found"
             ? "Finder email: " + data.founderEmail
             : "Owner email: " + data.ownerEmail}
         </p>
+        <p>{"Date Reported: " + new Date(data.dateReported).toDateString()}</p>
 
         {data.coordinates?.latitude && data.coordinates?.longitude && (
           <MapDisplayOne coords={data.coordinates} />
