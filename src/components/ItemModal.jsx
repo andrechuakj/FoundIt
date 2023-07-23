@@ -1,22 +1,106 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Modal, Button, Image, Container } from "react-bootstrap";
-import { updateDoc, doc } from "firebase/firestore";
+import {
+  updateDoc,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import MapDisplayOne from "./Maps/MapDisplayOne";
+import { useNavigate } from "react-router-dom";
+import { ChatContext } from "../contexts/ChatContext";
+import UserContext from "../contexts/UserContext";
 
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
-  const handleClaim = () => {
-    alert("An email has been sent to the finder to return it to you.");
-    // to do after milestone 2
+  const navigate = useNavigate();
+  const { dispatch } = useContext(ChatContext);
+  const [otherUser, setOtherUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const { user } = useContext(UserContext);
+
+  const handleContact = () => {
+    // Load other user, then useEffect hooks will
+    // load current user, then chat
+    const fetchData = async () => {
+      try {
+        const snapshot = await getDoc(doc(db, "users", data.reporterId));
+        if (snapshot.exists()) {
+          setOtherUser(snapshot.data());
+          dispatch({
+            type: "CHANGE_USER",
+            payload: snapshot.data(),
+          });
+        } else {
+          alert("No user found");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     onHide();
+    fetchData();
   };
 
-  const handleReturn = () => {
-    console.log(data.owner);
-    alert("An email has been sent to the owner to retrieve it from you.");
-    // to do after milestone 2, actually is this button necessary?..
-    onHide();
-  };
+  useEffect(() => {
+    // After loading other user, load current user
+    if (otherUser) {
+      const fetchData = async () => {
+        try {
+          const snapshot = await getDoc(doc(db, "users", user.id));
+          if (snapshot.exists()) {
+            setCurrentUser(snapshot.data());
+          } else {
+            alert("No user found");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
+  }, [otherUser]);
+
+  useEffect(() => {
+    // After loading current user, create and load chat
+    if (currentUser) {
+      const createChat = async () => {
+        const combinedId =
+          currentUser.id > otherUser.id
+            ? currentUser.id + otherUser.id
+            : otherUser.id + currentUser.id;
+        try {
+          const res = await getDoc(doc(db, "chats", combinedId));
+          if (!res.exists()) {
+            await setDoc(doc(db, "chats", combinedId), { messages: [] });
+
+            await updateDoc(doc(db, "userChats", currentUser.id), {
+              [combinedId + ".userInfo"]: {
+                id: otherUser.id,
+                name: otherUser.name,
+                profilePic: otherUser.profilePic,
+              },
+              [combinedId + ".date"]: serverTimestamp(),
+            });
+
+            await updateDoc(doc(db, "userChats", otherUser.id), {
+              [combinedId + ".userInfo"]: {
+                id: currentUser.id,
+                name: currentUser.name,
+                profilePic: currentUser.profilePic,
+              },
+              [combinedId + ".date"]: serverTimestamp(),
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+        navigate("/messages");
+      };
+      createChat();
+    }
+  }, [currentUser]);
 
   const handleReturned = async () => {
     const itemReturnedDoc = doc(db, "foundItems", data.id);
@@ -110,10 +194,10 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
       </Modal.Body>
       <Modal.Footer>
         {lostOrFound == "found" && !isPersonalView && (
-          <Button onClick={handleClaim}>Claim</Button>
+          <Button onClick={handleContact}>Contact</Button>
         )}
         {lostOrFound == "lost" && !isPersonalView && (
-          <Button onClick={handleReturn}>Return</Button>
+          <Button onClick={handleContact}>Contact</Button>
         )}
         {lostOrFound == "found" && isPersonalView && !data.returned && (
           <Button onClick={handleReturned}>Returned</Button>

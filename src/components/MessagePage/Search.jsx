@@ -15,13 +15,12 @@ import UserContext from "../../contexts/UserContext";
 import { ChatContext } from "../../contexts/ChatContext";
 
 const Search = () => {
-  const [username, setUsername] = useState("");
   const [searchedUser, setSearchedUser] = useState([]);
   const [err, setErr] = useState(false);
   const [hover, setHover] = useState(false);
   const { user } = useContext(UserContext);
   const { dispatch } = useContext(ChatContext);
-  const { data } = useContext(ChatContext);
+  const [username, setUsername] = useState("");
 
   const divStyle = {
     borderBottom: "1px solid grey",
@@ -157,7 +156,6 @@ const Search = () => {
               >
                 {searchedUser.name}
               </p>
-
             </div>
           </div>
         </>

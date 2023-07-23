@@ -151,6 +151,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
           ownerEmail: `${user.email}`,
           ownerContact: `${user.contact}`,
           returned: false,
+          reporterId: `${user.id}`,
         };
         createLostItem(lostItem);
       } else if (lostOrFound === "found") {
@@ -174,6 +175,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
           founderContact: `${user.contact}`,
           owner: null,
           returned: false,
+          reporterId: `${user.id}`,
         };
         createFoundItem(foundItem);
 
