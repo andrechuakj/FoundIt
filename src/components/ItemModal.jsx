@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Modal, Button, Image, Container } from "react-bootstrap";
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import MapDisplayOne from "./Maps/MapDisplayOne";
+import { useNavigate } from "react-router-dom";
+import { ChatContext } from "../contexts/ChatContext";
 
 const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
-  const handleClaim = () => {
-    alert("An email has been sent to the finder to return it to you.");
-    // to do after milestone 2
-    onHide();
-  };
+  const navigate = useNavigate();
+  const { setSearch } = useContext(ChatContext);
 
-  const handleReturn = () => {
-    console.log(data.owner);
-    alert("An email has been sent to the owner to retrieve it from you.");
-    // to do after milestone 2, actually is this button necessary?..
+  const handleContact = () => {
+    const fetchData = async () => {
+      try {
+        const snapshot = await getDoc(doc(db, "users", data.reporterId));
+        if (snapshot.exists()) {
+          setSearch(snapshot.data().name);
+          navigate("/messages");
+        } else {
+          alert("No user found");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     onHide();
+    fetchData();
   };
-
   const handleReturned = async () => {
     const itemReturnedDoc = doc(db, "foundItems", data.id);
     await updateDoc(itemReturnedDoc, { returned: true });
@@ -110,10 +119,10 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
       </Modal.Body>
       <Modal.Footer>
         {lostOrFound == "found" && !isPersonalView && (
-          <Button onClick={handleClaim}>Claim</Button>
+          <Button onClick={handleContact}>Contact</Button>
         )}
         {lostOrFound == "lost" && !isPersonalView && (
-          <Button onClick={handleReturn}>Return</Button>
+          <Button onClick={handleContact}>Contact</Button>
         )}
         {lostOrFound == "found" && isPersonalView && !data.returned && (
           <Button onClick={handleReturned}>Returned</Button>

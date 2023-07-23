@@ -28,8 +28,10 @@ export const ChatContextProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
+  const [search, setSearch] = useState(null);
+
   return (
-    <ChatContext.Provider value={{ data: state, dispatch }}>
+    <ChatContext.Provider value={{ data: state, dispatch, search, setSearch }}>
       {children}
     </ChatContext.Provider>
   );
