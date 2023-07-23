@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useEffect } from "react";
-import profilePic from "../../assets/profile pic.jpeg";
 import { UserContext } from "../../contexts/UserContext";
 import { ChatContext } from "../../contexts/ChatContext";
 

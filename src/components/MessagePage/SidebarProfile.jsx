@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import profilePic from "../../assets/profile pic.jpeg";
 import { ChatContext } from "../../contexts/ChatContext";
 
 const SidebarProfile = ({ data }) => {
@@ -31,9 +30,7 @@ const SidebarProfile = ({ data }) => {
       onClick={() => handleSelect(data[1].userInfo)}
     >
       <img
-        src={
-          data[1].userInfo?.profilePic ? data[1].userInfo.profilePic : profilePic
-        }
+        src={data[1].userInfo?.profilePic}
         alt="Profile picture"
         style={{
           height: "50px",

@@ -4,7 +4,7 @@ import { auth, db } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc, getFirestore } from "firebase/firestore";
 import { Alert } from "react-bootstrap";
-import noProfilePic from "../assets/profile pic.jpeg";
+import noProfilePic from "../assets/profile.jpg";
 
 export default function SignUp() {
   const [name, setName] = useState("");
