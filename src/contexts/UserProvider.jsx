@@ -23,10 +23,8 @@ const UserProvider = ({ children }) => {
         navigate("/");
       }
       setUser(JSON.parse(storedUser));
-      console.log(storedUser);
     } else {
       navigate("/login");
-      console.log(storedUser);
     }
   }, []);
 

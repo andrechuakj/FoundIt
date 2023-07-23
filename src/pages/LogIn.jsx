@@ -60,7 +60,6 @@ export default function LogIn() {
 
       if (!querySnapshot.empty) {
         const userData = querySnapshot.docs[0].data();
-        console.log(userData);
         return userData;
       }
 
