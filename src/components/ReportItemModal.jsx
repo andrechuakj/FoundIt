@@ -34,6 +34,8 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
   const locationRef = React.useRef(null);
   const dateRef = React.useRef(null);
   const fileInputRef = React.useRef();
+
+  const successMessageRef = React.useRef()
   const formRef = React.useRef(null);
 
   /*
@@ -254,7 +256,13 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     }
     resetInputFields();
     setSuccessMessage("Form Submitted!");
+    setScrollIntoView
   };
+
+  const setScrollIntoView = () => {
+    // scrolls the validation message into view, and the block: 'nearest' ensures it scrolls the modal and not the window
+    successMessageRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
 
   const resetInputFields = () => {
     if (formRef.current) {
@@ -301,7 +309,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
 
   return (
     <Modal show={openReportModal} onHide={handleModalClose} size="lg">
-      <Modal.Header className="px-4" closeButton> 
+      <Modal.Header className="px-4" closeButton>
         <Modal.Title className="ms-auto">Report Item</Modal.Title>
       </Modal.Header>
       <Form
@@ -321,7 +329,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
             </Alert>
           )}
           <Form.Group className="mb-3">
-            <FormLabel>Did you: </FormLabel>
+            <FormLabel ref={successMessageRef}>Did you: </FormLabel>
             <Container style={{ display: "flex", width: "100%" }}>
               <ToggleButtonGroup
                 type="radio"
@@ -349,89 +357,89 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
               </ToggleButtonGroup>
             </Container>
           </Form.Group>
-            {lostOrFound && (
-              <div className="modal-body row">
-                <div className="col-md-6 border-end pe-4 border-2">
-                  <Form.Group className="mb-3" controlId="reportForm.itemName">
-                    <Form.Label>Item name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      required
-                      ref={itemNameRef}
-                      autoFocus
-                    />
-                    <Form.Control.Feedback
-                      type="invalid"
-                      htmlFor="reportForm.itemName"
-                    >
-                      Please provide an item name.
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="reportForm.category">
-                    <Form.Label>Category</Form.Label>
-                    <CategoryDropdown
-                      category={categoryRef}
-                      setCategory={setCategoryRef}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please provide a category.
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="reportForm.colour">
-                    <Form.Label>Item Colour</Form.Label>
-                    <Form.Control type="text" required ref={colourRef} />
-                    <Form.Control.Feedback type="invalid">
-                      Please provide the item's colour.
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="reportForm.location">
-                    <Form.Label>
-                      {lostOrFound == "lost" ? "Location lost" : "Location found"}
-                    </Form.Label>
-                    <Form.Control type="text" required ref={locationRef} />
-                    <Form.Control.Feedback type="invalid">
-                      Please provide item location.
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="reportForm.others">
-                    <Form.Label>Other description</Form.Label>
-                    <Form.Control as="textarea" rows={3} ref={othersRef} />
-                  </Form.Group>
-                </div>
-                <div className="col-md-6 ps-4">
-                  <MapPicker
-                    selectedLocation={selectedLocation}
-                    setSelectedLocation={setSelectedLocation}
+          {lostOrFound && (
+            <div className="modal-body row">
+              <div className="col-md-6 border-end pe-4 border-2">
+                <Form.Group className="mb-3" controlId="reportForm.itemName">
+                  <Form.Label>Item name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    required
+                    ref={itemNameRef}
+                    autoFocus
                   />
-                  <Form.Group className="mb-3" controlId="reportForm.date">
-                    <Form.Label>
-                      {lostOrFound == "lost" ? "Date lost" : "Date found"}
-                    </Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={date}
-                      onChange={handleDateChange}
-                      required
-                      ref={dateRef}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {lostOrFound == "lost"
-                        ? "Please provide the date that item was lost"
-                        : "Please provide the date that item was found"}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Picture of item</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                      ref={fileInputRef}
-                    />
-                  </Form.Group>
-                </div>
+                  <Form.Control.Feedback
+                    type="invalid"
+                    htmlFor="reportForm.itemName"
+                  >
+                    Please provide an item name.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="reportForm.category">
+                  <Form.Label>Category</Form.Label>
+                  <CategoryDropdown
+                    category={categoryRef}
+                    setCategory={setCategoryRef}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a category.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="reportForm.colour">
+                  <Form.Label>Item Colour</Form.Label>
+                  <Form.Control type="text" required ref={colourRef} />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide the item's colour.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="reportForm.location">
+                  <Form.Label>
+                    {lostOrFound == "lost" ? "Location lost" : "Location found"}
+                  </Form.Label>
+                  <Form.Control type="text" required ref={locationRef} />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide item location.
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="reportForm.others">
+                  <Form.Label>Other description</Form.Label>
+                  <Form.Control as="textarea" rows={3} ref={othersRef} />
+                </Form.Group>
               </div>
-            )}
+              <div className="col-md-6 ps-4">
+                <MapPicker
+                  selectedLocation={selectedLocation}
+                  setSelectedLocation={setSelectedLocation}
+                />
+                <Form.Group className="mb-3" controlId="reportForm.date">
+                  <Form.Label>
+                    {lostOrFound == "lost" ? "Date lost" : "Date found"}
+                  </Form.Label>
+                  <Form.Control
+                    type="date"
+                    value={date}
+                    onChange={handleDateChange}
+                    required
+                    ref={dateRef}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {lostOrFound == "lost"
+                      ? "Please provide the date that item was lost"
+                      : "Please provide the date that item was found"}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="formFile" className="mb-3">
+                  <Form.Label>Picture of item</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    ref={fileInputRef}
+                  />
+                </Form.Group>
+              </div>
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           {lostOrFound && (
