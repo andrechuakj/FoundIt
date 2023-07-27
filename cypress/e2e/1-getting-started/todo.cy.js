@@ -73,6 +73,11 @@ describe('flow', () => {
     // submit form
     cy.findByRole('button', { name: /submit/i }).click()
 
+    /*
+    check if there is success message and if inputs are reset
+    // code this out
+    */
+
     // click on exit
     cy.findByRole('button', { name: /close/i }).click()
   })
