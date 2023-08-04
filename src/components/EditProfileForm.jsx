@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FloatingLabel,
   Button,
@@ -9,29 +9,42 @@ import {
   Image,
   ListGroup,
   Tab,
+  Alert,
 } from "react-bootstrap";
 import { UserContext } from "../contexts/UserContext";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
 
 const EditProfileForm = () => {
   const [picSelected, setPicSelected] = React.useState(false);
   const [nameChanged, setNameChanged] = React.useState(false);
   const [selectedImage, setSelectedImage] = React.useState(null);
-  const [newPasswordsMatch, setNewPasswordsMatch] = React.useState(true);
-  const [oldPasswordsMatch, setOldPasswordsMatch] = React.useState(true);
   const [passwordChanged, setPasswordChanged] = React.useState(false);
   const [usernameChanged, setUsernameChanged] = React.useState(false);
   const [uploadedPhoto, setUploadedPhoto] = React.useState(false);
   const [fileUrl, setFileUrl] = React.useState(null);
   const { user } = useContext(UserContext);
   const userEmail = `${user.email}`;
-  const userPassword = `${user.password}`;
   const userID = `${user.id}`;
   const [profilePic, setProfilePic] = React.useState("");
   const [userName, setUserName] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(true);
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  const picSubmitted = React.useRef(null);
+  const nameSubmitted = React.useRef(null);
+  const newPassword = React.useRef("");
+  const oldPassword = React.useRef("");
+  const [error, setError] = useState("");
+
+  const [credential, setCredential] = useState(null);
 
   const fetchDocument = async (docId) => {
     try {
@@ -54,12 +67,6 @@ const EditProfileForm = () => {
   useEffect(() => {
     fetchDocument(userID);
   }, []);
-
-  const picSubmitted = React.useRef(null);
-  const nameSubmitted = React.useRef(null);
-  const oldPassword = React.useRef("");
-  const newPassword = React.useRef("");
-  const confirmPassword = React.useRef("");
 
   const tabPaneStyle = {
     border: "1px solid",
@@ -132,51 +139,42 @@ const EditProfileForm = () => {
     //backend here
   };
 
-  //For validating whether old password is correct
-  const handleOldPasswordChange = () => {
-    if (
-      oldPassword.current.value === userPassword &&
-      oldPassword.current.value != ""
-    ) {
-      console.log("old passwords correct");
-      setOldPasswordsMatch(true);
-      // Proceed with form submission or further logic
-    } else {
-      console.log("old passwords dont match");
-      setOldPasswordsMatch(false);
-    }
-  };
-
-  //For validating whether new passwords match
-  const handleConfirmPasswordChange = () => {
-    if (
-      newPassword.current.value === confirmPassword.current.value &&
-      newPassword.current.value != ""
-    ) {
-      setNewPasswordsMatch(true);
-      // Proceed with form submission or further logic
-    } else {
-      setNewPasswordsMatch(false);
-    }
-  };
-
   //For submitted password after save button is clicked
   const handleSubmitPassword = (e) => {
-    const form = e.currentTarget;
-    if (
-      oldPassword.current.value == "" ||
-      newPasswordsMatch === false ||
-      oldPasswordsMatch === false
-    ) {
-      e.preventDefault();
-      e.stopPropagation();
-      console.log("cannot submit");
+    e.preventDefault();
+    if (!newPassword.current.value || !oldPassword.current.value) {
+      setError("Please fill in your password");
       return;
     }
 
-    console.log("submitted");
-    setPasswordChanged(true);
-    //do backend stuff here
+    reauthenticateWithCredential(currentUser, credential)
+      .then(() => updatePassword(currentUser, newPassword.current.value))
+      .then(() => {
+        setPasswordChanged(true);
+        newPassword.current.value = "";
+        setError("");
+        oldPassword.current.value = "";
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "auth/missing-password":
+            setError("Please fill in your password");
+            break;
+          case "auth/weak-password":
+            setError("Password must be at least 6 characters long");
+            break;
+          case "auth/wrong-password":
+            setError("Wrong password");
+            break;
+          default:
+            setError("Failed to change password");
+            console.log(error.code);
+        }
+      });
+  };
+
+  const handleOldPasswordChange = (e) => {
+    setCredential(EmailAuthProvider.credential(userEmail, e.target.value));
   };
 
   return (
@@ -329,34 +327,15 @@ const EditProfileForm = () => {
                 <Form noValidate>
                   <Form.Group className="mb-3" controlId="profileOldPassword">
                     <FloatingLabel
-                      controlId="profileOldPasswordLabel"
+                      controlId="profileOldLabel"
                       label="Old Password"
                       className="mb-3"
                     >
                       <Form.Control
                         type="password"
                         placeholder="Old Password"
-                        ref={oldPassword}
-                        isInvalid={!oldPasswordsMatch}
                         onChange={handleOldPasswordChange}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        Password is wrong
-                      </Form.Control.Feedback>
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="profileNewPassword">
-                    <FloatingLabel
-                      controlId="profileNewPasswordLabel"
-                      label="New Password"
-                      className="mb-3"
-                    >
-                      <Form.Control
-                        type="password"
-                        placeholder="New Password"
-                        ref={newPassword}
-                        isInvalid={!newPasswordsMatch}
-                        onChange={handleConfirmPasswordChange}
+                        ref={oldPassword}
                       />
                     </FloatingLabel>
                   </Form.Group>
@@ -366,40 +345,30 @@ const EditProfileForm = () => {
                   >
                     <FloatingLabel
                       controlId="profileConfirmPasswordLabel"
-                      label="Confirm New Password"
+                      label="New Password"
                       className="mb-3"
                     >
                       <Form.Control
                         type="password"
-                        placeholder="Confirm New Password"
-                        ref={confirmPassword}
-                        isInvalid={!newPasswordsMatch}
-                        onChange={handleConfirmPasswordChange}
+                        placeholder="New Password"
+                        ref={newPassword}
                       />
-                      {!newPasswordsMatch &&
-                        confirmPassword.current.value != "" && (
-                          <Form.Control.Feedback type="invalid">
-                            Passwords do not match
-                          </Form.Control.Feedback>
-                        )}
-                      {confirmPassword.current.value == "" && (
-                        <Form.Control.Feedback type="invalid">
-                          Please confirm your password
-                        </Form.Control.Feedback>
-                      )}
                     </FloatingLabel>
                   </Form.Group>
-                  {!passwordChanged &&
-                    oldPasswordsMatch &&
-                    newPasswordsMatch && (
-                      <Button type="submit" onClick={handleSubmitPassword}>
-                        Save
-                      </Button>
-                    )}
+                  {!passwordChanged && (
+                    <Button type="submit" onClick={handleSubmitPassword}>
+                      Save
+                    </Button>
+                  )}
                   {passwordChanged && (
                     <Button variant="outline-success" disabled>
                       Saved
                     </Button>
+                  )}
+                  {error && (
+                    <Alert variant="danger" className="alert">
+                      {error}
+                    </Alert>
                   )}
                 </Form>
               </Tab.Pane>
