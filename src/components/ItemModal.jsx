@@ -13,7 +13,14 @@ import { useNavigate } from "react-router-dom";
 import { ChatContext } from "../contexts/ChatContext";
 import UserContext from "../contexts/UserContext";
 
-const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
+const ItemModal = ({
+  show,
+  onHide,
+  data,
+  lostOrFound,
+  isPersonalView,
+  setRefreshKey,
+}) => {
   const navigate = useNavigate();
   const { dispatch } = useContext(ChatContext);
   const [otherUser, setOtherUser] = useState(null);
@@ -117,6 +124,9 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
       .then(() => {
         console.log("data.returned successfully changed to true");
       })
+      .then(() => {
+        setRefreshKey((prevKey) => prevKey + 1);
+      })
       .catch((error) => {
         console.log("data.returned cannot be changed", error);
       });
@@ -136,6 +146,9 @@ const ItemModal = ({ show, onHide, data, lostOrFound, isPersonalView }) => {
     updateDoc(itemRef, { returned: true })
       .then(() => {
         console.log("data.returned successfully changed to true");
+      })
+      .then(() => {
+        setRefreshKey((prevKey) => prevKey + 1);
       })
       .catch((error) => {
         console.log("data.returned cannot be changed", error);

@@ -16,7 +16,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserContext } from "../contexts/UserContext";
 import emailjs from "emailjs-com";
 
-const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
+const ReportItemModal = ({ openReportModal, setOpenReportModal, setRefreshKey }) => {
   const [lostOrFound, setLostOrFound] = useState("");
   const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
   const [validated, setValidated] = useState(false);
@@ -108,6 +108,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     try {
       const docRef = await addDoc(collection(db, "lostItems"), item);
       updateDoc(docRef, { id: docRef.id });
+      setRefreshKey((oldKey) => oldKey + 1);
       console.log("Document written with ID:", docRef.id);
     } catch (error) {
       console.error("Error adding document:", error);
@@ -118,6 +119,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal }) => {
     try {
       const docRef = await addDoc(collection(db, "foundItems"), item);
       updateDoc(docRef, { id: docRef.id });
+      setRefreshKey((oldKey) => oldKey + 1);
       console.log("Document written with ID:", docRef.id);
     } catch (error) {
       console.error("Error adding document:", error);

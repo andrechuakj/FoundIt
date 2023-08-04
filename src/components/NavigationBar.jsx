@@ -15,7 +15,7 @@ import { UserContext } from "../contexts/UserContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const NavigationBar = ({ searchKey, setSearchKey }) => {
+const NavigationBar = ({ searchKey, setSearchKey, setRefreshKey }) => {
   const [dropdownHovered, setDropdownHovered] = useState(false);
   const [messageHovered, setMessageHovered] = useState(false);
   const [openReportModal, setOpenReportModal] = useState(false);
@@ -162,6 +162,7 @@ const NavigationBar = ({ searchKey, setSearchKey }) => {
       <ReportItemModal
         openReportModal={openReportModal}
         setOpenReportModal={setOpenReportModal}
+        setRefreshKey={setRefreshKey}
       />
     </>
   );

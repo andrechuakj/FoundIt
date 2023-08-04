@@ -11,6 +11,7 @@ const ItemView = ({
   isPersonalView,
   categoryFilter,
   isLoading,
+  setRefreshKey,
 }) => {
   const [modalShow, setModalShow] = React.useState(false);
   const { user } = useContext(UserContext);
@@ -97,6 +98,7 @@ const ItemView = ({
         data={itemToShow}
         lostOrFound={lostOrFound}
         isPersonalView={isPersonalView}
+        setRefreshKey={setRefreshKey}
       />
       <Container fluid>
         <Row className="g-4 d-flex flex-wrap">
@@ -148,7 +150,7 @@ const ItemView = ({
                           opacity: "0.9",
                         }}
                       >
-                        <Card.Text style={{ fontSize: "22px", overflowWrap:"normal" }}>
+                        <Card.Text style={{ fontSize: "22px"}}>
                           {lostOrFound == "lost" ? "Claimed" : "Returned"}
                         </Card.Text>
                       </Card.ImgOverlay>

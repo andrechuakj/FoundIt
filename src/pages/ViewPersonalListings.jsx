@@ -9,6 +9,7 @@ import CategoryDropdown from "../components/CategoryDropdown";
 const ViewPersonalListings = () => {
   const [searchPersonalKey, setSearchPersonalKey] = React.useState("");
   const [category, setCategory] = React.useState(null);
+  const [refreshKey, setRefreshKey] = React.useState(0);
 
   return (
     <>
@@ -29,6 +30,7 @@ const ViewPersonalListings = () => {
             <NavigationBar
               searchKey={searchPersonalKey}
               setSearchKey={setSearchPersonalKey}
+              setRefreshKey={setRefreshKey}
             />
           </div>
           <hr />
@@ -52,6 +54,8 @@ const ViewPersonalListings = () => {
           <PersonalItemTabs
             searchPersonalKey={searchPersonalKey}
             categoryFilter={category}
+            key={refreshKey}
+            setRefreshKey={setRefreshKey}
           />
           <br />
         </Col>

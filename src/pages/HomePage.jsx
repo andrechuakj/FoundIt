@@ -8,6 +8,7 @@ import CategoryDropdown from "../components/CategoryDropdown";
 const HomePage = () => {
   const [searchKey, setSearchKey] = React.useState("");
   const [category, setCategory] = React.useState(null);
+  const [refreshKey, setRefreshKey] = React.useState(0);
 
   return (
     <>
@@ -24,7 +25,11 @@ const HomePage = () => {
             backgroundColor: "white",
           }}
         >
-          <NavigationBar searchKey={searchKey} setSearchKey={setSearchKey} />
+          <NavigationBar
+            searchKey={searchKey}
+            setSearchKey={setSearchKey}
+            setRefreshKey={setRefreshKey}
+          />
           <hr />
           <div
             style={{
@@ -38,7 +43,11 @@ const HomePage = () => {
           >
             <CategoryDropdown category={category} setCategory={setCategory} />
           </div>
-          <ItemTabs searchKey={searchKey} categoryFilter={category} />
+          <ItemTabs
+            searchKey={searchKey}
+            categoryFilter={category}
+            key={refreshKey}
+          />
         </Col>
       </Row>
     </>
