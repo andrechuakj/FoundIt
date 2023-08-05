@@ -57,7 +57,6 @@ const ProfileBar = () => {
           {isLoading && (
             <div
               style={{
-                border: "3px solid white",
                 height: "120px",
                 width: "120px",
                 borderRadius: "50%",
@@ -65,18 +64,20 @@ const ProfileBar = () => {
               }}
             ></div>
           )}
-          <Image
-            src={profilePic}
-            alt=""
-            roundedCircle
-            style={{
-              border: "3px solid white",
-              height: "120px",
-              width: "120px",
-              display: "block",
-              margin: "0 auto",
-            }}
-          />
+          {!isLoading && (
+            <Image
+              src={profilePic}
+              alt=""
+              roundedCircle
+              style={{
+                border: "3px solid white",
+                height: "120px",
+                width: "120px",
+                display: "block",
+                margin: "0 auto",
+              }}
+            />
+          )}
           <h4>{userName}</h4>
         </div>
       </div>

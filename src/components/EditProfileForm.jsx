@@ -184,7 +184,7 @@ const EditProfileForm = () => {
         defaultActiveKey="#editProfile"
       >
         <Row>
-          <Col sm={3} style={{ height: `calc(100vh - 400px)` }}>
+          <Col sm={3} style={{ marginBottom: "20px" }}>
             <ListGroup>
               <ListGroup.Item action href="#editProfile">
                 Edit Profile Details
@@ -201,80 +201,79 @@ const EditProfileForm = () => {
                 <br />
                 <br />
                 <h3>Profile Picture</h3>
-                <Row>
-                  <Col sm={3}>
-                    <Container>
-                      {isLoading && (
-                        <div
-                          style={{
-                            border: "3px solid white",
-                            height: "150px",
-                            width: "150px",
-                            borderRadius: "50%",
-                            background: "lightgrey",
-                          }}
-                        ></div>
-                      )}
-                      <Image
-                        src={picSelected ? selectedImage : profilePic}
-                        alt=""
-                        roundedCircle
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  {isLoading && (
+                    <div
+                      style={{
+                        height: "150px",
+                        width: "150px",
+                        borderRadius: "50%",
+                        background: "lightgrey",
+                        marginRight: "25px",
+                      }}
+                    ></div>
+                  )}
+                  {!isLoading && (
+                    <Image
+                      src={picSelected ? selectedImage : profilePic}
+                      alt=""
+                      roundedCircle
+                      style={{
+                        height: "150px",
+                        width: "150px",
+                        display: "block",
+                        marginRight: "25px",
+                      }}
+                    />
+                  )}
+                  <form>
+                    <Form.Group
+                      style={{
+                        border: "1px solid lightgrey",
+                        padding: "3px",
+                        borderRadius: "4px",
+                        display: "inline-block",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <label
                         style={{
-                          border: "3px solid white",
-                          height: "150px",
-                          width: "150px",
-                          objectFit: "cover",
+                          borderRadius: "8px",
+                          padding: "8px",
+                          cursor: "pointer",
+                          fontWeight: "bold",
+                          whiteSpace: "nowrap",
                         }}
-                      />
-                    </Container>
-                  </Col>
-                  <Col sm={9}>
-                    <Container>
-                      <form>
-                        <Form.Group
-                          style={{
-                            border: "1px solid lightgrey",
-                            padding: "3px",
-                            borderRadius: "4px",
-                            display: "inline-block",
-                            marginBottom: "10px",
-                          }}
-                        >
-                          <label
-                            style={{
-                              borderRadius: "8px",
-                              padding: "8px",
-                              cursor: "pointer",
-                              fontWeight: "bold",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            <input
-                              type="file"
-                              name="Upload a photo"
-                              accept="image/*"
-                              style={{ display: "none" }}
-                              ref={picSubmitted}
-                              onChange={handleFileChange}
-                            />
-                            Upload a photo
-                          </label>
-                        </Form.Group>
-                        <br />
-                        {picSelected && !uploadedPhoto && (
-                          <Button type="submit" onClick={handlePicSubmit}>
-                            Save
-                          </Button>
-                        )}
-                        {picSelected && uploadedPhoto && (
-                          <Button variant="outline-success" disabled>
-                            Saved
-                          </Button>
-                        )}
-                      </form>
-                    </Container>
-                  </Col>
-                </Row>
+                      >
+                        <input
+                          type="file"
+                          name="Upload a photo"
+                          accept="image/*"
+                          style={{ display: "none" }}
+                          ref={picSubmitted}
+                          onChange={handleFileChange}
+                        />
+                        Upload a photo
+                      </label>
+                    </Form.Group>
+                    <br />
+                    {picSelected && !uploadedPhoto && (
+                      <Button type="submit" onClick={handlePicSubmit}>
+                        Save
+                      </Button>
+                    )}
+                    {picSelected && uploadedPhoto && (
+                      <Button variant="outline-success" disabled>
+                        Saved
+                      </Button>
+                    )}
+                  </form>
+                </div>
                 <br />
                 <hr />
                 <br />
