@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Card, Col, Row, Container } from "react-bootstrap";
 import ItemModal from "./ItemModal";
 import { UserContext } from "../contexts/UserContext";
@@ -144,13 +144,13 @@ const ItemView = ({
                         style={{
                           background: "rgba(0, 0, 0, 0.5)",
                           color: "#ffffff",
+                          display: "flex",
+                          alignItems: "center",
                           textAlign: "center",
-                          padding: "75px",
                           height: "200px",
-                          opacity: "0.9",
                         }}
                       >
-                        <Card.Text style={{ fontSize: "18px"}}>
+                        <Card.Text style={{ fontSize: "20px", width: "100%" }}>
                           {lostOrFound == "lost" ? "Claimed" : "Returned"}
                         </Card.Text>
                       </Card.ImgOverlay>
