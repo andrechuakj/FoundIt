@@ -101,7 +101,7 @@ const NavigationBar = ({ searchKey, setSearchKey, setRefreshKey }) => {
               className="d-inline-block align-top"
             />
           </Navbar.Brand>
-          <Navbar.Brand href="/">
+          <Navbar.Brand href="/" className="d-none d-md-block">
             <Navbar.Text style={{ fontSize: 33, fontWeight: "bold" }}>
               FoundIt
             </Navbar.Text>

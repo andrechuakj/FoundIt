@@ -13,10 +13,13 @@ export default function EditProfile() {
     <>
       <Row
         className="justify-content-md-center"
-        style={{ height: "100vh", width: "100%" }}
+        style={{ height: "100vh", width: "100%", margin: "0px" }}
       >
         <Col
           xxl="8"
+          xl="9"
+          lg="10.5"
+          md="11"
           style={{
             border: "1px solid lightgrey",
             boxShadow: "0 0 10px black",
