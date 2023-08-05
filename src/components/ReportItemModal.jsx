@@ -16,7 +16,11 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserContext } from "../contexts/UserContext";
 import emailjs from "emailjs-com";
 
-const ReportItemModal = ({ openReportModal, setOpenReportModal, setRefreshKey }) => {
+const ReportItemModal = ({
+  openReportModal,
+  setOpenReportModal,
+  setRefreshKey,
+}) => {
   const [lostOrFound, setLostOrFound] = useState("");
   const [date, setDate] = useState(new Date().toISOString().substr(0, 10));
   const [validated, setValidated] = useState(false);
@@ -35,7 +39,7 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal, setRefreshKey })
   const dateRef = React.useRef(null);
   const fileInputRef = React.useRef();
 
-  const successMessageRef = React.useRef()
+  const successMessageRef = React.useRef();
   const formRef = React.useRef(null);
 
   /*
@@ -146,9 +150,9 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal, setRefreshKey })
           itemPicture: fileUrl ? fileUrl : noImage,
           coordinates: selectedLocation
             ? new GeoPoint(
-              selectedLocation.latitude,
-              selectedLocation.longitude
-            )
+                selectedLocation.latitude,
+                selectedLocation.longitude
+              )
             : null,
           id: generateUUID(),
           founder: null,
@@ -170,9 +174,9 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal, setRefreshKey })
           itemPicture: fileUrl ? fileUrl : noImage,
           coordinates: selectedLocation
             ? new GeoPoint(
-              selectedLocation.latitude,
-              selectedLocation.longitude
-            )
+                selectedLocation.latitude,
+                selectedLocation.longitude
+              )
             : null,
           id: generateUUID(),
           founder: `${user.name}`,
@@ -257,38 +261,42 @@ const ReportItemModal = ({ openReportModal, setOpenReportModal, setRefreshKey })
       console.log(error);
     }
     resetInputFields();
+    setOpenReportModal(false);
     setSuccessMessage("Form Submitted!");
-    setScrollIntoView
+    // setScrollIntoView()  // does scroll all the way to the top
   };
 
   const setScrollIntoView = () => {
     // scrolls the validation message into view, and the block: 'nearest' ensures it scrolls the modal and not the window
-    successMessageRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  }
+    successMessageRef.current?.scrollIntoView({
+      block: "nearest",
+      behavior: "smooth",
+    });
+  };
 
   const resetInputFields = () => {
     if (formRef.current) {
-      setCategoryRef(null)
-      setValidated(false)
-      setSelectedLocation(null)
-      setFileUrl(null)
-      setSuccessMessage("")
-      setFileUrl(null)
-      fileInputRef.current.value = ''
+      setCategoryRef(null);
+      setValidated(false);
+      setSelectedLocation(null);
+      setFileUrl(null);
+      setSuccessMessage("");
+      setFileUrl(null);
+      fileInputRef.current.value = "";
 
-      const itemNameElement = itemNameRef.current
+      const itemNameElement = itemNameRef.current;
       itemNameElement.value = itemNameElement.defaultValue;
 
-      const colourElement = colourRef.current
+      const colourElement = colourRef.current;
       colourElement.value = colourElement.defaultValue;
 
-      const othersElement = othersRef.current
+      const othersElement = othersRef.current;
       othersElement.value = othersElement.defaultValue;
 
-      const locationElement = locationRef.current
+      const locationElement = locationRef.current;
       locationElement.value = locationElement.defaultValue;
 
-      const dateElement = dateRef.current
+      const dateElement = dateRef.current;
       dateElement.value = dateElement.defaultValue;
     }
   };

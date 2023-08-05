@@ -6,7 +6,10 @@ import NavigationBar from "../components/NavigationBar";
 const MessagesPage = () => {
   return (
     <>
-      <Row className="justify-content-md-center">
+      <Row
+        className="justify-content-md-center"
+        style={{ height: "100vh", width: "100%" }}
+      >
         <Col
           lg="8"
           style={{

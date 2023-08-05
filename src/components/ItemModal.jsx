@@ -211,18 +211,18 @@ const ItemModal = ({
         )}
       </Modal.Body>
       <Modal.Footer>
-        {lostOrFound == "found" && !isPersonalView && (
+        {lostOrFound == "found" && data.reporterId != user.id && (
           <Button onClick={handleContact}>Contact</Button>
         )}
-        {lostOrFound == "lost" && !isPersonalView && (
+        {lostOrFound == "lost" && data.reporterId != user.id && (
           <Button onClick={handleContact}>Contact</Button>
         )}
-        {lostOrFound == "found" && isPersonalView && !data.returned && (
-          <Button onClick={handleReturned}>Returned</Button>
-        )}
-        {lostOrFound == "lost" && isPersonalView && !data.returned && (
-          <Button onClick={handleClaimed}>Claimed</Button>
-        )}
+        {lostOrFound == "found" &&
+          data.reporterId === user.id &&
+          !data.returned && <Button onClick={handleReturned}>Returned</Button>}
+        {lostOrFound == "lost" &&
+          data.reporterId === user.id &&
+          !data.returned && <Button onClick={handleClaimed}>Claimed</Button>}
       </Modal.Footer>
     </Modal>
   );

@@ -11,11 +11,10 @@ const ViewMap = () => {
     <>
       <Row
         className="justify-content-md-center"
-        xxl
-        style={{ height: "100vh", width: "100vw" }}
+        style={{ height: "100vh", width: "100%" }}
       >
         <Col
-          lg="8"
+          xxl="8"
           style={{
             border: "1px solid lightgrey",
             boxShadow: "0 0 10px black",

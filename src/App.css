@@ -3,13 +3,13 @@
   box-sizing: border-box;
 }
 
+
 body {
   background-image: url(./assets/background.jpg);
   background-attachment: fixed;
-  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
 }
+
 
 .form-container {
   height: 100vh;

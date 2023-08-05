@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect, useLayoutEffect } from "react";
 import NavigationBar from "../components/NavigationBar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -14,15 +14,15 @@ const HomePage = () => {
     <>
       <Row
         className="justify-content-md-center"
-        xxl
-        style={{ height: "100vh", width: "100vw" }}
+        style={{ height: "100vh", width: "100%" }}
       >
         <Col
-          lg="8"
+          xxl="8"
           style={{
             border: "1px solid lightgrey",
             boxShadow: "0 0 10px black",
             backgroundColor: "white",
+            scrollbarGutter: "stable",
           }}
         >
           <NavigationBar
@@ -47,6 +47,7 @@ const HomePage = () => {
             searchKey={searchKey}
             categoryFilter={category}
             key={refreshKey}
+            setRefreshKey={setRefreshKey}
           />
         </Col>
       </Row>

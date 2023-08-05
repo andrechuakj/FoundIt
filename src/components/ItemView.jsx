@@ -150,7 +150,7 @@ const ItemView = ({
                           opacity: "0.9",
                         }}
                       >
-                        <Card.Text style={{ fontSize: "22px"}}>
+                        <Card.Text style={{ fontSize: "18px"}}>
                           {lostOrFound == "lost" ? "Claimed" : "Returned"}
                         </Card.Text>
                       </Card.ImgOverlay>
